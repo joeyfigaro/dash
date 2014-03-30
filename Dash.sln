@@ -1,7 +1,7 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2008
 
-Project("{3663598D-5C58-58B5-A604-0B1BBED4F187}") = "Dash", "Assembly-CSharp.csproj", "{7C32723C-8D24-C3DB-B85D-2AAC4E7AB654}"
+Project("{B999A7C3-BCC5-535B-4C8E-277E18B7B6E1}") = "dash", "Assembly-CSharp.csproj", "{DB0885BE-1D7C-61AF-273F-809AA52E3040}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,15 +9,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7C32723C-8D24-C3DB-B85D-2AAC4E7AB654}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7C32723C-8D24-C3DB-B85D-2AAC4E7AB654}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7C32723C-8D24-C3DB-B85D-2AAC4E7AB654}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7C32723C-8D24-C3DB-B85D-2AAC4E7AB654}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB0885BE-1D7C-61AF-273F-809AA52E3040}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB0885BE-1D7C-61AF-273F-809AA52E3040}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB0885BE-1D7C-61AF-273F-809AA52E3040}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB0885BE-1D7C-61AF-273F-809AA52E3040}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-					GlobalSection(MonoDevelopProperties) = preSolution
+						GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1

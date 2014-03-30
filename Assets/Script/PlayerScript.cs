@@ -6,6 +6,17 @@ using UnityEngine;
 /// </summary>
 public class PlayerScript : MonoBehaviour
 {
+	public Sprite green;
+	public Sprite red;
+	public Sprite blue;
+
+	void start() {
+
+		//		mGates.Add(Resources.Load("gateRed"));
+//		mGates.Add(Resources.Load("gateBlue"));
+//		mGates.Add(Resources.Load("gateGreen"));
+	}
+
 //	/// <summary>
 //	/// 1 - The speed of the ship
 //	/// </summary>
@@ -14,8 +25,14 @@ public class PlayerScript : MonoBehaviour
 //	// 2 - Store the movement
 //	private Vector2 movement;
 //	
-//	void Update()
-//	{
+	void Update()
+	{
+		SpriteRenderer sprRenderer = (SpriteRenderer) renderer;
+
+		if(Input.GetKey("1")) sprRenderer.sprite = red;
+		if(Input.GetKey("2")) sprRenderer.sprite = green;
+		if(Input.GetKey("3")) sprRenderer.sprite = blue;
+
 //		// 3 - Retrieve axis information
 //		float inputX = Input.GetAxis("Horizontal");
 //		float inputY = Input.GetAxis("Vertical");
@@ -67,8 +84,8 @@ public class PlayerScript : MonoBehaviour
 //			);
 //		
 //		// End of the update method
-//	}
-//	
+	}
+	
 //	void FixedUpdate()
 //	{
 //		// 5 - Move the game object
