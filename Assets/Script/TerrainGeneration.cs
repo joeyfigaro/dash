@@ -3,36 +3,49 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class TerrainGeneration : MonoBehaviour {
+	
+	public Transform gate;
+	public Transform tile;
+	public float gateDelay = 4f;
+	public float tileDelay = 1f;
+	private float rightBorder;
 
-
-
-	// Use this for initialization
 	void Start () {
-		mGates.Add(Resources.Load("gateRed"));
-		mGates.Add(Resources.Load("gateBlue"));
-		mGates.Add(Resources.Load("gateGreen"));
+		StartCoroutine(generateGate());
+		StartCoroutine(generateTerrain());
 	}
 
-	public List<Object> mGates = new List<Object>();
-
-	private void generateGate() {
-		var rightBorder = Camera.main.ViewportToWorldPoint(
-			new Vector3(1, 0, 0)
-			).x;
-		
-		
-		int gateOffset = Random.Range(0, mGates.Count);
+	IEnumerator generateTerrain() {
+		for( float timer = tileDelay; timer >= 0; timer -= Time.deltaTime)
+			yield return 0;
 		
 		Vector3 position = Camera.main.transform.position;
 		position.x = rightBorder;
-		position.y = -1.12f;
+		position.y = -2.12f;
 		position.z = 1;
 		
-		Instantiate(mGates[gateOffset], position, Camera.main.transform.rotation);
+		Instantiate(tile, position, Camera.main.transform.rotation);
+		
+		StartCoroutine(generateTerrain());
 	}
 
-	// Update is called once per frame
+	IEnumerator generateGate() {
+		for( float timer = gateDelay; timer >= 0; timer -= Time.deltaTime)
+			yield return 0;
+
+		Vector3 position = Camera.main.transform.position;
+		position.x = rightBorder;
+		position.y = .95f;
+		position.z = 1;
+		
+		Instantiate(gate, position, Camera.main.transform.rotation);
+		
+		StartCoroutine(generateGate());
+	}
+
 	void Update () {
-		if(Random.Range (0, 100) >= 95) generateGate();
+		rightBorder = Camera.main.ViewportToWorldPoint(
+			new Vector3(1, 0, 0)
+			).x;
 	}
 }

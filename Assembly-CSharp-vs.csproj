@@ -46,10 +46,14 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Script\ColorChangerScript.cs" />
+     <Compile Include="Assets\Script\GameOverScript.cs" />
+     <Compile Include="Assets\Script\GateScript.cs" />
      <Compile Include="Assets\Script\PlayerScript.cs" />
      <Compile Include="Assets\Script\RendererExtensions.cs" />
      <Compile Include="Assets\Script\ScrollingScript.cs" />
      <Compile Include="Assets\Script\TerrainGeneration.cs" />
+     <Compile Include="Assets\Script\TileScript.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
