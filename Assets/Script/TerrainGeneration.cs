@@ -24,7 +24,8 @@ public class TerrainGeneration : MonoBehaviour {
 		position.y = -2.12f;
 		position.z = 1;
 		
-		Instantiate(tile, position, Camera.main.transform.rotation);
+		Transform mTile = Instantiate(tile, position, Camera.main.transform.rotation) as Transform;
+		mTile.parent = transform;
 		
 		StartCoroutine(generateTerrain());
 	}
@@ -38,7 +39,8 @@ public class TerrainGeneration : MonoBehaviour {
 		position.y = .95f;
 		position.z = 1;
 		
-		Instantiate(gate, position, Camera.main.transform.rotation);
+		Transform mGate = Instantiate(gate, position, Camera.main.transform.rotation) as Transform;
+		mGate.parent = transform;
 		
 		StartCoroutine(generateGate());
 	}
