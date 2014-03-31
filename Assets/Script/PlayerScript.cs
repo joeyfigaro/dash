@@ -36,7 +36,13 @@ public class PlayerScript : MonoBehaviour
 		if (gate != null)
 		{
 			ColorChangerScript enemyColorChanger = collision.gameObject.GetComponent<ColorChangerScript>();
-			if(enemyColorChanger.colorNew != colorChanger.colorNew) Destroy(gameObject);
+
+			if(enemyColorChanger.colorNew != colorChanger.colorNew) {
+				if(collision.gameObject.transform.rotation.eulerAngles.z != 0) {
+					BoxCollider2D collider = collision.gameObject.GetComponent<BoxCollider2D>();
+					collider.isTrigger = false;
+				} else Destroy(gameObject);
+			}
 			else {
 				gatesPassed++;
 				calculateSpeed();

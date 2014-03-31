@@ -45,9 +45,15 @@ public class TerrainGeneration : MonoBehaviour {
 		position.x = rightBorder;
 		position.y = -.59f;
 		position.z = 1;
-		
-		Instantiate(gate, position, Camera.main.transform.rotation);
-		
+
+		Quaternion rot = Quaternion.Euler(0, 0, 0);
+		if(Random.Range(0, 5) == 4) {
+			position.y = -1.2f;
+			rot = Quaternion.Euler(0, 0, -55);
+		}
+
+		Instantiate(gate, position, rot);
+
 		StartCoroutine(generateGate());
 	}
 

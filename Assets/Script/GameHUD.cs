@@ -3,11 +3,12 @@ using System.Collections;
 
 public class GameHUD : MonoBehaviour {
 	void OnGUI () {
-		// Make a background box
-		GUI.Box(new Rect(10,10,120,400), "Loader Menu");
-		
+
+		float height = Screen.currentResolution.height;
+		float buttonSize = height / 8;
+
 		// Make the first button. If it is pressed, Application.Loadlevel (1) will be executed
-		if(GUI.Button(new Rect(20,40,100,100), "Red")) {
+		if(GUI.Button(new Rect(10,0,buttonSize,buttonSize), "Red")) {
 			GameObject dasher = GameObject.FindGameObjectWithTag("Player");
 			if(dasher) {
 				ColorChangerScript colorChanger = dasher.GetComponent<ColorChangerScript>();
@@ -15,7 +16,7 @@ public class GameHUD : MonoBehaviour {
 			}
 		}
 
-		if(GUI.Button(new Rect(20,160,100,100), "Green")) {
+		if(GUI.Button(new Rect(10,buttonSize,buttonSize,buttonSize), "Green")) {
 			GameObject dasher = GameObject.FindGameObjectWithTag("Player");
 			if(dasher) {
 				ColorChangerScript colorChanger = dasher.GetComponent<ColorChangerScript>();
@@ -23,7 +24,7 @@ public class GameHUD : MonoBehaviour {
 			}
 		}
 
-		if(GUI.Button(new Rect(20,280,100,100), "Blue")) {
+		if(GUI.Button(new Rect(10,2 * buttonSize,buttonSize,buttonSize), "Blue")) {
 			GameObject dasher = GameObject.FindGameObjectWithTag("Player");
 			if(dasher) {
 				ColorChangerScript colorChanger = dasher.GetComponent<ColorChangerScript>();
