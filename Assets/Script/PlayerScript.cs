@@ -4,10 +4,12 @@ using UnityEngine;
 public class PlayerScript : MonoBehaviour
 {
 	private ColorChangerScript colorChanger;
+	public int gatesPassed = 0;
 
 	void Start() {
 		colorChanger = GetComponent<ColorChangerScript>();
 		colorChanger.colorNew = Random.Range(0, 3);
+		calculateSpeed();
 	}
 
 	void Update()
@@ -17,6 +19,11 @@ public class PlayerScript : MonoBehaviour
 		if(Input.GetKey("3")) colorChanger.colorNew = 2;
 
 		colorChanger.colorMaintenance();
+	}
+
+	void calculateSpeed() {
+		ScrollingScript scrolling = gameObject.GetComponent<ScrollingScript>();
+		scrolling.direction.x = .5f + Mathf.Sqrt(gatesPassed / 10f);
 	}
 
 	void OnDestroy() {
@@ -31,8 +38,8 @@ public class PlayerScript : MonoBehaviour
 			ColorChangerScript enemyColorChanger = collision.gameObject.GetComponent<ColorChangerScript>();
 			if(enemyColorChanger.colorNew != colorChanger.colorNew) Destroy(gameObject);
 			else {
-				ScrollingScript scrolling = gameObject.GetComponent<ScrollingScript>();
-				scrolling.direction.x += .1f;
+				gatesPassed++;
+				calculateSpeed();
 			}
 		}
 	}

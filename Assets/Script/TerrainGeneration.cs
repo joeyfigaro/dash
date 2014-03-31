@@ -9,10 +9,18 @@ public class TerrainGeneration : MonoBehaviour {
 	public float gateDelay = 4f;
 	public float tileDelay = 1f;
 	private float rightBorder;
+	private float leftBorder;
 
 	void Start () {
 		StartCoroutine(generateGate());
 		StartCoroutine(generateTerrain());
+
+		calculateBorders();
+
+		for( float x = leftBorder; x <= rightBorder; x += .1f) {
+			Vector3 position = new Vector3(x, -2.12f, 1f);
+			Instantiate(tile, position, Camera.main.transform.rotation);
+		}
 	}
 
 	IEnumerator generateTerrain() {
@@ -35,7 +43,7 @@ public class TerrainGeneration : MonoBehaviour {
 
 		Vector3 position = Camera.main.transform.position;
 		position.x = rightBorder;
-		position.y = .95f;
+		position.y = -.59f;
 		position.z = 1;
 		
 		Instantiate(gate, position, Camera.main.transform.rotation);
@@ -43,9 +51,17 @@ public class TerrainGeneration : MonoBehaviour {
 		StartCoroutine(generateGate());
 	}
 
-	void Update () {
+	private void calculateBorders() {
+		leftBorder = Camera.main.ViewportToWorldPoint(
+			new Vector3(-1, 0, 0)
+			).x;
+		
 		rightBorder = Camera.main.ViewportToWorldPoint(
 			new Vector3(1, 0, 0)
 			).x;
+	}
+
+	void Update () {
+		calculateBorders();
 	}
 }
