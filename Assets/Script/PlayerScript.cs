@@ -30,6 +30,10 @@ public class PlayerScript : MonoBehaviour
 		{
 			ColorChangerScript enemyColorChanger = collision.gameObject.GetComponent<ColorChangerScript>();
 			if(enemyColorChanger.colorNew != colorChanger.colorNew) Destroy(gameObject);
+			else {
+				ScrollingScript scrolling = gameObject.GetComponent<ScrollingScript>();
+				scrolling.direction.x += .1f;
+			}
 		}
 	}
 }
