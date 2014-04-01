@@ -9,7 +9,7 @@ public class ColorChangerScript : MonoBehaviour {
 	public int colorNew = 0;
 	private int colorOld = -1;
 	
-	public void colorMaintenance() {
+	public void Update() {
 		if(colorNew != colorOld) {
 			SpriteRenderer sprRenderer = (SpriteRenderer) renderer;
 			switch(colorNew) {

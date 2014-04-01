@@ -10,8 +10,6 @@ public class TileScript : MonoBehaviour {
 	}
 
 	void Update () {
-		colorChanger.colorMaintenance();
-
 		if (renderer.IsVisibleFrom(Camera.main) == false)
 		{
 			Destroy(gameObject);

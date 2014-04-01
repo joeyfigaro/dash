@@ -7,8 +7,8 @@ public class PlayerScript : MonoBehaviour
 	public int gatesPassed = 0;
 
 	void Start() {
-		colorChanger = GetComponent<ColorChangerScript>();
-		colorChanger.colorNew = Random.Range(0, 3);
+//		colorChanger = GetComponent<ColorChangerScript>();
+//		colorChanger.colorNew = Random.Range(0, 3);
 		calculateSpeed();
 	}
 
@@ -17,8 +17,6 @@ public class PlayerScript : MonoBehaviour
 		if(Input.GetKey("1")) colorChanger.colorNew = 0;
 		if(Input.GetKey("2")) colorChanger.colorNew = 1;
 		if(Input.GetKey("3")) colorChanger.colorNew = 2;
-
-		colorChanger.colorMaintenance();
 	}
 
 	void calculateSpeed() {

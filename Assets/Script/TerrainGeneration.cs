@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 public class TerrainGeneration : MonoBehaviour {
 	
-	public Transform gate;
-	public Transform tile;
+	public GameObject gate;
+	public GameObject tile;
 	public float gateDelay = 4f;
 	public float tileDelay = 1f;
 	private float rightBorder;
@@ -19,7 +19,9 @@ public class TerrainGeneration : MonoBehaviour {
 
 		for( float x = leftBorder; x <= rightBorder; x += .1f) {
 			Vector3 position = new Vector3(x, -2.12f, 1f);
-			Instantiate(tile, position, Camera.main.transform.rotation);
+			GameObject tileClone = Instantiate(tile, position, Camera.main.transform.rotation) as GameObject;
+			GameObject foreground = GameObject.Find("Terrain");
+			tileClone.transform.parent = foreground.transform;
 		}
 	}
 
@@ -32,8 +34,10 @@ public class TerrainGeneration : MonoBehaviour {
 		position.y = -2.12f;
 		position.z = 1;
 		
-		Instantiate(tile, position, Camera.main.transform.rotation);
-		
+		GameObject tileClone = Instantiate(tile, position, Camera.main.transform.rotation) as GameObject;
+		GameObject foreground = GameObject.Find("Terrain");
+		tileClone.transform.parent = foreground.transform;
+
 		StartCoroutine(generateTerrain());
 	}
 
@@ -52,7 +56,9 @@ public class TerrainGeneration : MonoBehaviour {
 			rot = Quaternion.Euler(0, 0, -55);
 		}
 
-		Instantiate(gate, position, rot);
+		GameObject gateClone = Instantiate(gate, position, rot) as GameObject;
+		GameObject foreground = GameObject.Find("Terrain");
+		gateClone.transform.parent = foreground.transform;
 
 		StartCoroutine(generateGate());
 	}
