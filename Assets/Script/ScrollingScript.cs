@@ -69,7 +69,7 @@ public class ScrollingScript : MonoBehaviour
 			speed.x * direction.x,
 			speed.y * direction.y,
 			0);
-		
+
 		movement *= Time.deltaTime;
 		transform.Translate(movement);
 		

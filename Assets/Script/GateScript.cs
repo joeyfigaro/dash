@@ -6,7 +6,7 @@ public class GateScript : MonoBehaviour {
 
 	void Start () {
 		colorChanger = GetComponent<ColorChangerScript>();
-		colorChanger.colorNew = Random.Range(0, 3);
+		colorChanger.color = Random.Range(0, 3);
 	}
 
 	void Update () {

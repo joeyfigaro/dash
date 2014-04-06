@@ -6,13 +6,13 @@ public class ColorChangerScript : MonoBehaviour {
 	public Sprite red;
 	public Sprite blue;
 	
-	public int colorNew = 0;
+	public int color = 0;
 	private int colorOld = -1;
-	
+
 	public void Update() {
-		if(colorNew != colorOld) {
+		if(color != colorOld) {
 			SpriteRenderer sprRenderer = (SpriteRenderer) renderer;
-			switch(colorNew) {
+			switch(color) {
 			case 0:
 				sprRenderer.sprite = red;
 				break;
@@ -23,12 +23,7 @@ public class ColorChangerScript : MonoBehaviour {
 				sprRenderer.sprite = blue;
 				break;
 			}
-			colorOld = colorNew;
-		}
-		
-		if (renderer.IsVisibleFrom(Camera.main) == false)
-		{
-			Destroy(gameObject);
+			colorOld = color;
 		}
 	}
 }

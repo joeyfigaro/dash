@@ -12,7 +12,7 @@ public class GameHUD : MonoBehaviour {
 			GameObject dasher = GameObject.FindGameObjectWithTag("Player");
 			if(dasher) {
 				ColorChangerScript colorChanger = dasher.GetComponent<ColorChangerScript>();
-				if(colorChanger) colorChanger.colorNew = 0;
+				if(colorChanger) colorChanger.color = 0;
 			}
 		}
 
@@ -20,7 +20,7 @@ public class GameHUD : MonoBehaviour {
 			GameObject dasher = GameObject.FindGameObjectWithTag("Player");
 			if(dasher) {
 				ColorChangerScript colorChanger = dasher.GetComponent<ColorChangerScript>();
-				if(colorChanger) colorChanger.colorNew = 1;
+				if(colorChanger) colorChanger.color = 1;
 			}
 		}
 
@@ -28,7 +28,7 @@ public class GameHUD : MonoBehaviour {
 			GameObject dasher = GameObject.FindGameObjectWithTag("Player");
 			if(dasher) {
 				ColorChangerScript colorChanger = dasher.GetComponent<ColorChangerScript>();
-				if(colorChanger) colorChanger.colorNew = 2;
+				if(colorChanger) colorChanger.color = 2;
 			}
 		}
 	}

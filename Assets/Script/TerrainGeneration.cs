@@ -7,59 +7,76 @@ public class TerrainGeneration : MonoBehaviour {
 	public GameObject gate;
 	public GameObject tile;
 	public float gateDelay = 4f;
-	public float tileDelay = 1f;
+	public float startTerrainY = -2.12f;
+	public float terrainGenerationSpacer = .001f;
+	public float terrainGenerationOverdraw = 1f;
+	public float terrainAngleMax = 30f;
+	public float terrainDeviationMax = 3f;
+
 	private float rightBorder;
 	private float leftBorder;
+	private float terrainX;
+	private float terrainY;
+	private float lastTerrainAngle = 0;
+	private bool makeGate = false;
+	private GameObject foreground;
 
 	void Start () {
-		StartCoroutine(generateGate());
-		StartCoroutine(generateTerrain());
+		foreground = GameObject.Find("Terrain");
 
 		calculateBorders();
 
-		for( float x = leftBorder; x <= rightBorder; x += .1f) {
-			Vector3 position = new Vector3(x, -2.12f, 1f);
-			GameObject tileClone = Instantiate(tile, position, Camera.main.transform.rotation) as GameObject;
-			GameObject foreground = GameObject.Find("Terrain");
-			tileClone.transform.parent = foreground.transform;
-		}
+		terrainX = leftBorder;
+		terrainY = startTerrainY;
+
+		generateTerrain();
 	}
 
-	IEnumerator generateTerrain() {
-		for( float timer = tileDelay; timer >= 0; timer -= Time.deltaTime)
-			yield return 0;
-		
-		Vector3 position = Camera.main.transform.position;
-		position.x = rightBorder;
-		position.y = -2.12f;
-		position.z = 1;
-		
-		GameObject tileClone = Instantiate(tile, position, Camera.main.transform.rotation) as GameObject;
-		GameObject foreground = GameObject.Find("Terrain");
-		tileClone.transform.parent = foreground.transform;
+	public void startGateGeneration() {
+		StartCoroutine(generateGate());
+	}
 
-		StartCoroutine(generateTerrain());
+	private void generateTerrain() {
+		Vector3 position;
+		Quaternion rot;
+		GameObject tileClone;
+		GameObject gateClone;
+
+		for( float tempTerrain = terrainX; tempTerrain <= rightBorder + terrainGenerationOverdraw; tempTerrain += terrainGenerationSpacer) {
+			float angleChange = Random.Range (-1, 2);
+			if(Mathf.Abs (lastTerrainAngle + angleChange) >= terrainAngleMax) angleChange = 0;
+
+			float terrainChange = terrainGenerationSpacer * Mathf.Tan((lastTerrainAngle + angleChange) * Mathf.Deg2Rad);
+			if(Mathf.Abs (terrainY + terrainChange) >= terrainDeviationMax) {
+				if(terrainY > 0) angleChange = -1;
+				else angleChange = 1;
+				terrainChange = terrainGenerationSpacer * Mathf.Tan((lastTerrainAngle + angleChange) * Mathf.Deg2Rad);
+			}
+
+			lastTerrainAngle += angleChange;
+			terrainY += terrainChange;
+
+			rot = Quaternion.Euler(0, 0, lastTerrainAngle);
+			position = new Vector3(tempTerrain, terrainY, 0f);
+
+			if(makeGate) {
+				gateClone = Instantiate(gate, new Vector3(rightBorder, terrainY + 1.53f, 0), rot) as GameObject;
+				gateClone.transform.parent = foreground.transform;
+				makeGate = false;
+			}
+
+			tileClone = Instantiate(tile, position, rot) as GameObject;
+			tileClone.transform.parent = foreground.transform;
+
+			terrainX = tempTerrain;
+		}
 	}
 
 	IEnumerator generateGate() {
 		for( float timer = gateDelay; timer >= 0; timer -= Time.deltaTime)
 			yield return 0;
 
-		Vector3 position = Camera.main.transform.position;
-		position.x = rightBorder;
-		position.y = -.59f;
-		position.z = 1;
-
-		Quaternion rot = Quaternion.Euler(0, 0, 0);
-		if(Random.Range(0, 5) == 4) {
-			position.y = -1.2f;
-			rot = Quaternion.Euler(0, 0, -55);
-		}
-
-		GameObject gateClone = Instantiate(gate, position, rot) as GameObject;
-		GameObject foreground = GameObject.Find("Terrain");
-		gateClone.transform.parent = foreground.transform;
-
+		makeGate = true;
 		StartCoroutine(generateGate());
 	}
 
@@ -73,7 +90,8 @@ public class TerrainGeneration : MonoBehaviour {
 			).x;
 	}
 
-	void Update () {
+	void Update() {
 		calculateBorders();
+		generateTerrain();
 	}
 }
