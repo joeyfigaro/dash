@@ -5,6 +5,7 @@ public class PlayerScript : MonoBehaviour
 {
 	public int gatesPassed = 0;
 	public float baseSpeed = 0;
+
 	private int color = 0;
 	private ParticleSystem trail;
 
@@ -46,18 +47,8 @@ public class PlayerScript : MonoBehaviour
 	}
 
 	private void calculateSpeed() {
-//		ScrollingScript scrolling = gameObject.GetComponent<ScrollingScript>();
-//		scrolling.direction.x = .5f + Mathf.Sqrt(gatesPassed / 10f);
-
-//		Debug.Log (rigidbody2D.velocity);
 		rigidbody2D.velocity = new Vector2(baseSpeed +
-		                                   Mathf.Sqrt(gatesPassed) + 
-		                                   (5 * Mathf.Sqrt(gatesPassed / 5)) +
-		                                   (10 * Mathf.Sqrt(gatesPassed / 10)) +
-		                                   (20 * Mathf.Sqrt(gatesPassed / 20)), rigidbody2D.velocity.y);
-//		Debug.Log (rigidbody2D.velocity);
-//		transform.Translate(new Vector2(2*baseSpeed +
-//		                               (Mathf.Sqrt(gatesPassed) / 10f), 0));
+		                                   (baseSpeed * Mathf.Sqrt(2f * gatesPassed)), rigidbody2D.velocity.y);
 	}
 
 	void OnDestroy() {

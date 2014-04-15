@@ -6,9 +6,9 @@ public class TerrainGeneration : MonoBehaviour {
 	
 	public GameObject gate;
 	public GameObject tile;
-	public float gateDelay = 4f;
-	public float startTerrainY = -2.12f;
-	public float terrainGenerationSpacer = .001f;
+	public float timeBetweenGates = 4f;
+	public float startTerrainY = 0f;
+	public float terrainGenerationSpacer = 1f;
 	public float terrainGenerationOverdraw = 1f;
 	public float terrainAngleMax = 30f;
 	public float terrainDeviationMax = 3f;
@@ -19,11 +19,8 @@ public class TerrainGeneration : MonoBehaviour {
 	private float terrainY;
 	private float lastTerrainAngle = 0;
 	private bool makeGate = false;
-	private GameObject foreground;
 
 	void Start () {
-		foreground = GameObject.Find("Terrain");
-
 		calculateBorders();
 
 		terrainX = leftBorder;
@@ -60,20 +57,20 @@ public class TerrainGeneration : MonoBehaviour {
 			position = new Vector3(tempTerrain, terrainY, 0f);
 
 			if(makeGate) {
-				gateClone = Instantiate(gate, new Vector3(rightBorder, terrainY + 1.53f, 0), rot) as GameObject;
-				gateClone.transform.parent = foreground.transform;
+				gateClone = Instantiate(gate, new Vector3(rightBorder, terrainY + (gate.renderer.bounds.size.y / 2), 0), rot) as GameObject;
+				gateClone.transform.parent = transform;
 				makeGate = false;
 			}
 
 			tileClone = Instantiate(tile, position, rot) as GameObject;
-			tileClone.transform.parent = foreground.transform;
+			tileClone.transform.parent = transform;
 
 			terrainX = tempTerrain;
 		}
 	}
 
 	IEnumerator generateGate() {
-		for( float timer = gateDelay; timer >= 0; timer -= Time.deltaTime)
+		for( float timer = timeBetweenGates; timer >= 0; timer -= Time.deltaTime)
 			yield return 0;
 
 		makeGate = true;
