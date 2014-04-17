@@ -11,24 +11,24 @@ public class GameHUD : MonoBehaviour {
 		if(GUI.Button(new Rect(10,0,buttonSize,buttonSize), "Red")) {
 			GameObject dasher = GameObject.FindGameObjectWithTag("Player");
 			if(dasher) {
-				ColorChangerScript colorChanger = dasher.GetComponent<ColorChangerScript>();
-				if(colorChanger) colorChanger.color = 0;
+//				ColorChangerScript colorChanger = dasher.GetComponent<ColorChangerScript>();
+//				if(colorChanger) colorChanger.color = 0;
 			}
 		}
 
 		if(GUI.Button(new Rect(10,buttonSize,buttonSize,buttonSize), "Green")) {
 			GameObject dasher = GameObject.FindGameObjectWithTag("Player");
 			if(dasher) {
-				ColorChangerScript colorChanger = dasher.GetComponent<ColorChangerScript>();
-				if(colorChanger) colorChanger.color = 1;
+//				ColorChangerScript colorChanger = dasher.GetComponent<ColorChangerScript>();
+//				if(colorChanger) colorChanger.color = 1;
 			}
 		}
 
 		if(GUI.Button(new Rect(10,2 * buttonSize,buttonSize,buttonSize), "Blue")) {
 			GameObject dasher = GameObject.FindGameObjectWithTag("Player");
 			if(dasher) {
-				ColorChangerScript colorChanger = dasher.GetComponent<ColorChangerScript>();
-				if(colorChanger) colorChanger.color = 2;
+//				ColorChangerScript colorChanger = dasher.GetComponent<ColorChangerScript>();
+//				if(colorChanger) colorChanger.color = 2;
 			}
 		}
 	}

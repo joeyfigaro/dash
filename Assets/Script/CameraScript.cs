@@ -24,11 +24,13 @@ public class CameraScript : MonoBehaviour {
 	void Update () {
 		Vector3 pos = getAdjustedPosition();
 		Vector3 vel = player.rigidbody2D.velocity;
+		
+		float speedRatio = .5f;
 
-		float speedRatio = ps.baseSpeed / vel.x;
-		if(float.IsNaN(speedRatio)) speedRatio = 1;
-		if(float.IsInfinity(speedRatio)) speedRatio = 1;
-		if(speedRatio == 0) speedRatio = 1;
+//		float speedRatio = ps.baseSpeed / vel.x;
+//		if(float.IsNaN(speedRatio)) speedRatio = 1;
+//		if(float.IsInfinity(speedRatio)) speedRatio = 1;
+//		if(speedRatio == 0) speedRatio = 1;
 
 		float newField = cameraFieldInitial + (cameraFieldMax - (speedRatio * cameraFieldMax));
 

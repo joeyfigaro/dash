@@ -1,12 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GateScript : MonoBehaviour {
-	private ColorChangerScript colorChanger;
-
-	void Start () {
-		colorChanger = GetComponent<ColorChangerScript>();
-		colorChanger.color = Random.Range(0, 3);
+public class GateScript : ColorObject {
+	void Start() {
 	}
 
 	void Update () {
@@ -14,5 +10,10 @@ public class GateScript : MonoBehaviour {
 		{
 			Destroy(gameObject);
 		}
+		updateColor();
+	}
+	
+	private void updateColor() {
+		gameObject.renderer.material.color = realColor();
 	}
 }

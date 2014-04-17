@@ -23,7 +23,7 @@ public class EventsScript : MonoBehaviour {
 		PlayerScript ps = player.GetComponent<PlayerScript>();
 		ps.baseSpeed = playerBaseSpeed;
 
-		GameObject terrain = GameObject.Find("Terrain");
-		terrain.GetComponent<TerrainGeneration>().startGateGeneration();
+		BeatEngine beatEngine = GetComponent<BeatEngine>();
+		beatEngine.engage();
 	}
 }
