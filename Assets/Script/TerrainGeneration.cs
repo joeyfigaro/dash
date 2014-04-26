@@ -4,50 +4,97 @@ using System.Collections.Generic;
 
 public class TerrainGeneration : MonoBehaviour {
 	
-	public Transform gate;
-	public Transform tile;
-	public float gateDelay = 4f;
-	public float tileDelay = 1f;
+	public GameObject doodad;
+	public GameObject gate;
+	public GameObject tile;
+	public GameObject background;
+	public GameObject terrain;
+
+	public float timeBetweenDoodads = 2f;
+	public float startTerrainY = 0f;
+	public float terrainGenerationSpacer = 1f;
+	public float terrainGenerationOverdraw = 1f;
+	public float terrainAngleMax = 30f;
+	public float terrainDeviationMax = 3f;
+
 	private float rightBorder;
+	private float leftBorder;
+	private float terrainX;
+	private float terrainY;
+	private float lastTerrainAngle = 0;
+
+	private GateScript gateScript;
 
 	void Start () {
-		StartCoroutine(generateGate());
-		StartCoroutine(generateTerrain());
+		calculateBorders();
+
+		terrainX = leftBorder;
+		terrainY = startTerrainY;
+
+		gateScript = gate.GetComponent<GateScript>();
+
+		generateTerrain();
+
+		StartCoroutine(generateDoodad());
 	}
 
-	IEnumerator generateTerrain() {
-		for( float timer = tileDelay; timer >= 0; timer -= Time.deltaTime)
+	private void generateTerrain() {
+		Vector3 position;
+		Quaternion rot;
+		GameObject tileClone;
+
+		for( float tempTerrain = terrainX; tempTerrain <= rightBorder + terrainGenerationOverdraw; tempTerrain += terrainGenerationSpacer) {
+			float angleChange = Random.Range (-1, 2);
+			if(Mathf.Abs (lastTerrainAngle + angleChange) >= terrainAngleMax) angleChange = 0;
+
+			float terrainChange = terrainGenerationSpacer * Mathf.Tan((lastTerrainAngle + angleChange) * Mathf.Deg2Rad);
+			if(Mathf.Abs (terrainY + terrainChange) >= terrainDeviationMax) {
+				if(terrainY > 0) angleChange = -1;
+				else angleChange = 1;
+				terrainChange = terrainGenerationSpacer * Mathf.Tan((lastTerrainAngle + angleChange) * Mathf.Deg2Rad);
+			}
+
+			lastTerrainAngle += angleChange;
+			terrainY += terrainChange;
+
+			rot = Quaternion.Euler(0, 0, lastTerrainAngle);
+			position = new Vector3(tempTerrain, terrainY, 0f);
+
+			tileClone = Instantiate(tile, position, rot) as GameObject;
+			tileClone.transform.parent = terrain.transform;
+
+			terrainX = tempTerrain;
+		}
+	}
+
+	public void generateGate(int color) {
+		gateScript.color = color;
+		GameObject gateClone = Instantiate(gate, new Vector3(rightBorder, terrainY + (gate.renderer.bounds.size.y / 2), 0), Quaternion.Euler(0, 0, lastTerrainAngle)) as GameObject;
+		gateClone.transform.parent = terrain.transform;
+	}
+	
+	IEnumerator generateDoodad() {
+		for( float timer = timeBetweenDoodads; timer >= 0; timer -= Time.deltaTime)
 			yield return 0;
-		
-		Vector3 position = Camera.main.transform.position;
-		position.x = rightBorder;
-		position.y = -2.12f;
-		position.z = 1;
-		
-		Transform mTile = Instantiate(tile, position, Camera.main.transform.rotation) as Transform;
-		mTile.parent = transform;
-		
-		StartCoroutine(generateTerrain());
+
+		GameObject doodadClone = Instantiate(doodad, new Vector3(rightBorder, 0, 1), new Quaternion(0, 0, 0, 0)) as GameObject;
+		doodadClone.transform.parent = background.transform;
+
+		StartCoroutine(generateDoodad());
 	}
 
-	IEnumerator generateGate() {
-		for( float timer = gateDelay; timer >= 0; timer -= Time.deltaTime)
-			yield return 0;
-
-		Vector3 position = Camera.main.transform.position;
-		position.x = rightBorder;
-		position.y = .95f;
-		position.z = 1;
+	private void calculateBorders() {
+		leftBorder = Camera.main.ViewportToWorldPoint(
+			new Vector3(-1, 0, 0)
+			).x;
 		
-		Transform mGate = Instantiate(gate, position, Camera.main.transform.rotation) as Transform;
-		mGate.parent = transform;
-		
-		StartCoroutine(generateGate());
-	}
-
-	void Update () {
 		rightBorder = Camera.main.ViewportToWorldPoint(
 			new Vector3(1, 0, 0)
 			).x;
+	}
+
+	void Update() {
+		calculateBorders();
+		generateTerrain();
 	}
 }
