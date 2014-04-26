@@ -10,6 +10,9 @@ public class TerrainGeneration : MonoBehaviour {
 	public GameObject background;
 	public GameObject terrain;
 
+	public float terrainDistanceFromCamera = 50f;
+	public float backgroundDistanceFromCamera = 130f;
+
 	public float timeBetweenDoodads = 2f;
 	public float startTerrainY = 0f;
 	public float terrainGenerationSpacer = 1f;
@@ -48,17 +51,17 @@ public class TerrainGeneration : MonoBehaviour {
 			if(Mathf.Abs (lastTerrainAngle + angleChange) >= terrainAngleMax) angleChange = 0;
 
 			float terrainChange = terrainGenerationSpacer * Mathf.Tan((lastTerrainAngle + angleChange) * Mathf.Deg2Rad);
-			if(Mathf.Abs (terrainY + terrainChange) >= terrainDeviationMax) {
-				if(terrainY > 0) angleChange = -1;
-				else angleChange = 1;
-				terrainChange = terrainGenerationSpacer * Mathf.Tan((lastTerrainAngle + angleChange) * Mathf.Deg2Rad);
-			}
+//			if(Mathf.Abs (terrainY + terrainChange) >= (startTerrainY + terrainDeviationMax)) {
+//				if(terrainY > 0) angleChange = -1;
+//				else angleChange = 1;
+//				terrainChange = terrainGenerationSpacer * Mathf.Tan((lastTerrainAngle + angleChange) * Mathf.Deg2Rad);
+//			}
 
 			lastTerrainAngle += angleChange;
 			terrainY += terrainChange;
 
 			rot = Quaternion.Euler(0, 0, lastTerrainAngle);
-			position = new Vector3(tempTerrain, terrainY, 0f);
+			position = new Vector3(tempTerrain, terrainY, terrainDistanceFromCamera);
 
 			tileClone = Instantiate(tile, position, rot) as GameObject;
 			tileClone.transform.parent = terrain.transform;
@@ -69,7 +72,8 @@ public class TerrainGeneration : MonoBehaviour {
 
 	public void generateGate(int color) {
 		gateScript.color = color;
-		GameObject gateClone = Instantiate(gate, new Vector3(rightBorder, terrainY + (gate.renderer.bounds.size.y / 2), 0), Quaternion.Euler(0, 0, lastTerrainAngle)) as GameObject;
+		Debug.Log (tile.renderer.bounds.size.y);
+		GameObject gateClone = Instantiate(gate, new Vector3(rightBorder, terrainY + (tile.renderer.bounds.size.y / 1.55f), terrainDistanceFromCamera), Quaternion.Euler(0, 0, lastTerrainAngle)) as GameObject;
 		gateClone.transform.parent = terrain.transform;
 	}
 	
@@ -77,7 +81,7 @@ public class TerrainGeneration : MonoBehaviour {
 		for( float timer = timeBetweenDoodads; timer >= 0; timer -= Time.deltaTime)
 			yield return 0;
 
-		GameObject doodadClone = Instantiate(doodad, new Vector3(rightBorder, 0, 1), new Quaternion(0, 0, 0, 0)) as GameObject;
+		GameObject doodadClone = Instantiate(doodad, new Vector3(rightBorder + doodad.renderer.bounds.size.x, 3, backgroundDistanceFromCamera), new Quaternion(0, 0, 0, 0)) as GameObject;
 		doodadClone.transform.parent = background.transform;
 
 		StartCoroutine(generateDoodad());
@@ -85,11 +89,11 @@ public class TerrainGeneration : MonoBehaviour {
 
 	private void calculateBorders() {
 		leftBorder = Camera.main.ViewportToWorldPoint(
-			new Vector3(-1, 0, 0)
+			new Vector3(-1, 0, terrainDistanceFromCamera)
 			).x;
 		
 		rightBorder = Camera.main.ViewportToWorldPoint(
-			new Vector3(1, 0, 0)
+			new Vector3(1, 0, terrainDistanceFromCamera)
 			).x;
 	}
 

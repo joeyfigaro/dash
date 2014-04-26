@@ -22,6 +22,8 @@ public class SunScript : ColorObject {
 	void Update () {
 		transform.localScale = Vector3.Lerp(transform.localScale, throbGoal, Time.deltaTime * 20);
 		gameObject.renderer.material.color = realColor();//Color.Lerp(gameObject.renderer.material.color, realColor(), Time.deltaTime * 10);
+		
+		Camera.main.backgroundColor = gameObject.renderer.material.color / 1.25f;
 
 		transform.rotation = Quaternion.Lerp(transform.rotation, newAngle, Time.deltaTime * 5);
 	}

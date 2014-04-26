@@ -38,20 +38,20 @@ public class CameraScript : MonoBehaviour {
 
 		float cameraLeftOffset = (
 			Camera.main.ViewportToWorldPoint(
-			new Vector3(0, 0, 0)
+			new Vector3(0, 0, player.transform.position.z)
 			).x - 
 			Camera.main.ViewportToWorldPoint(
-			new Vector3(-1, 0, 0)
-			).x) / 2;
+			new Vector3(-1, 0, player.transform.position.z)
+			).x) / 1.5f;
 		pos.x = pos.x + (cameraLeftOffset - (speedRatio * cameraLeftOffset));
 		pos.x = Mathf.Lerp(transform.position.x, pos.x, Time.deltaTime * ps.baseSpeed);
 
 		float cameraBottomOffset = (
 			Camera.main.ViewportToWorldPoint(
-			new Vector3(0, 0, 0)
+			new Vector3(0, 0, player.transform.position.z)
 			).y -
 			Camera.main.ViewportToWorldPoint(
-			new Vector3(0, -1, 0)
+			new Vector3(0, -1, player.transform.position.z)
 			).y) / 2;
 		pos.y = pos.y + (cameraBottomOffset - (speedRatio * cameraBottomOffset));
 
