@@ -54,8 +54,11 @@ public class CameraScript : MonoBehaviour {
 			new Vector3(0, -1, 0)
 			).y) / 2;
 		pos.y = pos.y + (cameraBottomOffset - (speedRatio * cameraBottomOffset));
+
 		pos.y = Mathf.Lerp(transform.position.y, pos.y, Time.deltaTime * 5f);
 
+
+		pos.y = 4.9f;
 		transform.position = pos;
 	}
 }
