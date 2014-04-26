@@ -28,7 +28,7 @@ public class PlayerScript : ColorObject
 	}
 
 	private void updateColor() {
-		trail.startColor = Color.Lerp(trail.startColor, realColor(), Time.deltaTime * 5);
+		trail.startColor = realColor();	//Color.Lerp(trail.startColor, realColor(), Time.deltaTime * 5);
 	}
 
 	void OnGUI(){
@@ -36,8 +36,9 @@ public class PlayerScript : ColorObject
 	}
 
 	private void calculateSpeed() {
-		rigidbody2D.velocity = new Vector2(baseSpeed +
-		                                   (baseSpeed * Mathf.Sqrt(2f * gatesPassed)), rigidbody2D.velocity.y);
+//		rigidbody2D.velocity = new Vector2(baseSpeed +
+//		                                   (baseSpeed * Mathf.Sqrt(2f * gatesPassed)), rigidbody2D.velocity.y);
+		rigidbody2D.velocity = new Vector2(baseSpeed * (BeatsEngine.Instance.bpm / 60), rigidbody2D.velocity.y);
 	}
 
 	void OnDestroy() {
@@ -57,6 +58,7 @@ public class PlayerScript : ColorObject
 			}
 			else {
 				gatesPassed++;
+				BeatsEngine.Instance.gateDestroyed();
 			}
 			Destroy(collision.gameObject);
 		}
