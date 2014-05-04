@@ -34,7 +34,7 @@ public class CameraScript : MonoBehaviour {
 
 		float newField = cameraFieldInitial + (cameraFieldMax - (speedRatio * cameraFieldMax));
 
-		Camera.main.orthographicSize = Mathf.Lerp(camera.orthographicSize, newField, Time.deltaTime * 5f);
+		Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize, newField, Time.deltaTime * 5f);
 
 		float cameraLeftOffset = (
 			Camera.main.ViewportToWorldPoint(
@@ -43,6 +43,7 @@ public class CameraScript : MonoBehaviour {
 			Camera.main.ViewportToWorldPoint(
 			new Vector3(-1, 0, player.transform.position.z)
 			).x) / 1.5f;
+
 		pos.x = pos.x + (cameraLeftOffset - (speedRatio * cameraLeftOffset));
 		pos.x = Mathf.Lerp(transform.position.x, pos.x, Time.deltaTime * ps.baseSpeed);
 
