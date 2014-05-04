@@ -28,16 +28,10 @@ public class PlayerScript : ColorObject
 	}
 
 	private void updateColor() {
-		trail.startColor = realColor();	//Color.Lerp(trail.startColor, realColor(), Time.deltaTime * 5);
-	}
-
-	void OnGUI(){
-		GUI.Label(new Rect(0, 0, Screen.width,Screen.height), rigidbody2D.velocity.x.ToString());
+		trail.startColor = realColor();
 	}
 
 	private void calculateSpeed() {
-//		rigidbody2D.velocity = new Vector2(baseSpeed +
-//		                                   (baseSpeed * Mathf.Sqrt(2f * gatesPassed)), rigidbody2D.velocity.y);
 		rigidbody2D.velocity = new Vector2(baseSpeed * (BeatsEngine.Instance.bpm / 60), rigidbody2D.velocity.y);
 	}
 

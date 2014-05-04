@@ -23,7 +23,7 @@ public class EventsScript : MonoBehaviour {
 		PlayerScript ps = player.GetComponent<PlayerScript>();
 		ps.baseSpeed = playerBaseSpeed;
 
-		BeatEngine beatEngine = GetComponent<BeatEngine>();
-		beatEngine.engage();
+		BeatsEngine beatsEngine = GetComponent<BeatsEngine>();
+		beatsEngine.engage();
 	}
 }

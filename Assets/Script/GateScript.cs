@@ -15,6 +15,6 @@ public class GateScript : ColorObject {
 	
 	private void updateColor() {
 		gameObject.renderer.material.color = realColor();
-		GetComponentInChildren<Renderer>().material.color = realColor();
+		transform.GetChild(0).renderer.material.color = realColor();
 	}
 }
