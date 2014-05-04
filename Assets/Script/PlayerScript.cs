@@ -60,7 +60,7 @@ public class PlayerScript : ColorObject
 				gatesPassed++;
 				BeatsEngine.Instance.gateDestroyed();
 			}
-			Destroy(collision.gameObject);
+			//Destroy(collision.gameObject);
 		}
 	}
 }
