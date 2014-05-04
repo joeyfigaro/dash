@@ -10,11 +10,6 @@ public class Playlist : MonoBehaviour {
 	[SerializeField]
 	public BeatAspect[] beatAspects;
 
-	public string[] nickname;
-	public AudioClip[] beat;
-	public int[] beatStart;
-	public int[] beatDelay;
-
 	void Awake()
 	{
 		// Register the singleton
