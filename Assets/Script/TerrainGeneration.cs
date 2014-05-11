@@ -8,77 +8,78 @@ public class TerrainGeneration : MonoBehaviour {
 	public GameObject tile;
 	public GameObject background;
 	public GameObject terrain;
-
-	public float terrainDistanceFromCamera = 50f;
-	public float backgroundDistanceFromCamera = 130f;
+	public GameObject ground;
+	public GameObject groundPlaceholder;
 
 	public float timeBetweenDoodads = 2f;
-	public float startTerrainY = 0f;
-	public float terrainGenerationSpacer = 1f;
-	public float terrainGenerationOverdraw = 1f;
-	public float terrainAngleMax = 30f;
-	public float terrainDeviationMax = 3f;
 
 	private int doodadIndex = 0;
 	private float rightBorder;
 	private float leftBorder;
 	private float rightBorderBackground;
 	private float leftBorderBackground;
-	private float terrainX;
 	private float terrainY;
-	private float lastTerrainAngle = 0;
+
+	private float fieldDepth;
+	private float fieldZMax;
+	private float fieldStart;
 
 	private GateScript gateScript;
 
 	void Start () {
-		calculateBorders();
-
-		terrainX = leftBorder;
-		terrainY = startTerrainY;
-
 		gateScript = gate.GetComponent<GateScript>();
 
-		generateTerrain();
+		fieldDepth = groundPlaceholder.renderer.bounds.size.z;
+		fieldStart = groundPlaceholder.transform.position.z - (groundPlaceholder.renderer.bounds.size.z / 2);
+		fieldZMax = groundPlaceholder.transform.position.z + (groundPlaceholder.renderer.bounds.size.z / 2);
+		terrainY = groundPlaceholder.transform.position.y;
+		Destroy(groundPlaceholder);
 
+		calculateBorders();
+
+		lastGroundX = leftBorderBackground - ground.renderer.bounds.size.x;
+		lastTileX = leftBorderBackground - tile.renderer.bounds.size.x;
+
+		generateTerrain();
 		StartCoroutine(generateDoodad());
 	}
 
+	private float lastGroundX;
+	private float lastTileX;
 	private void generateTerrain() {
 		Vector3 position;
 		Quaternion rot;
 		GameObject tileClone;
 
-		for( float tempTerrain = terrainX; tempTerrain <= rightBorder + terrainGenerationOverdraw; tempTerrain += terrainGenerationSpacer) {
-			float angleChange = Random.Range (-1, 2);
-			if(Mathf.Abs (lastTerrainAngle + angleChange) >= terrainAngleMax) angleChange = 0;
+		while((lastGroundX - rightBorderBackground <= ground.renderer.bounds.size.x) || (
+			lastTileX - rightBorderBackground <= tile.renderer.bounds.size.x)) {
+			if(lastGroundX - rightBorderBackground <= ground.renderer.bounds.size.x) {
+				position = new Vector3(lastGroundX, terrainY, fieldStart);
+				GameObject groundClone;
+				for(int groundTile = 0; groundTile <= (fieldDepth / ground.renderer.bounds.size.y) - 2; groundTile++) {
+					position.z += ground.renderer.bounds.size.y;
+					groundClone = Instantiate(ground, position, Quaternion.Euler(90, 0, 0)) as GameObject;
+					groundClone.transform.parent = terrain.transform;
+				}
+				lastGroundX += ground.renderer.bounds.size.x;
+			}
 
-			float terrainChange = terrainGenerationSpacer * Mathf.Tan((lastTerrainAngle + angleChange) * Mathf.Deg2Rad);
-//			if(Mathf.Abs (terrainY + terrainChange) >= (startTerrainY + terrainDeviationMax)) {
-//				if(terrainY > 0) angleChange = -1;
-//				else angleChange = 1;
-//				terrainChange = terrainGenerationSpacer * Mathf.Tan((lastTerrainAngle + angleChange) * Mathf.Deg2Rad);
-//			}
-
-			lastTerrainAngle += angleChange;
-			terrainY += terrainChange;
-
-			rot = Quaternion.Euler(0, 0, lastTerrainAngle);
-			position = new Vector3(tempTerrain, terrainY, terrainDistanceFromCamera);
-
-			tileClone = Instantiate(tile, position, rot) as GameObject;
-			tileClone.transform.parent = terrain.transform;
-
-			terrainX = tempTerrain;
+			if(lastTileX - rightBorderBackground <= tile.renderer.bounds.size.x) {
+				position = new Vector3(lastTileX, terrainY + 1.75f, fieldStart + tile.renderer.bounds.size.y);
+				tileClone = Instantiate(tile, position, Quaternion.Euler(0, 0, 0)) as GameObject;
+				tileClone.transform.parent = terrain.transform;
+				lastTileX += tile.renderer.bounds.size.x;
+			}
 		}
 	}
 
 	public void generateGate(int color) {
 		gateScript.color = color;
 		GameObject gateClone = Instantiate(gate, new Vector3(
-				rightBorder,
-				terrainY + ((tile.renderer.bounds.size.y + gate.renderer.bounds.size.y) / 2f),
-				terrainDistanceFromCamera
-			), Quaternion.Euler(0, 0, lastTerrainAngle)) as GameObject;
+			rightBorder,
+			terrainY + 2.35f * tile.renderer.bounds.size.y,
+			fieldStart + gate.renderer.bounds.size.y
+		), Quaternion.Euler(0, 0, 0)) as GameObject;
 		gateClone.transform.parent = terrain.transform;
 	}
 	
@@ -86,16 +87,15 @@ public class TerrainGeneration : MonoBehaviour {
 		for( float timer = timeBetweenDoodads; timer >= 0; timer -= Time.deltaTime)
 			yield return 0;
 
-		doodadIndex += Random.Range (1, Doodads.Instance.doodads.Length - 1);
-		if(doodadIndex >= Doodads.Instance.doodads.Length) doodadIndex -= Doodads.Instance.doodads.Length - 1;
-		
-		float z = Doodads.Instance.getRandomOffset(doodadIndex);
-		GameObject doodad = Doodads.Instance.doodads[doodadIndex];
-		GameObject doodadClone = Instantiate(doodad, new Vector3(
-				calculateRightBorderAtZ(z) + doodad.renderer.bounds.size.x, 
-				doodad.renderer.bounds.size.y / 2f,//terrainY + ((tile.renderer.bounds.size.y + doodad.renderer.bounds.size.y) / 2f) + Doodads.Instance.getRandomOffset(doodadIndex),
-				z
-			), doodad.transform.rotation) as GameObject;
+		DoodadScript doodadScript = Doodads.Instance.randomDoodadScript();
+
+		float z = 3;
+		if(!doodadScript.foreground) z = Doodads.Instance.getRandomOffset(doodadIndex);
+		GameObject doodadClone = Instantiate(doodadScript.gameObject, new Vector3(
+			calculateRightBorderAtZ(z) + doodadScript.gameObject.renderer.bounds.size.x, 
+			terrainY + (doodadScript.gameObject.renderer.bounds.size.y / 2f),
+			z
+			), doodadScript.gameObject.transform.rotation) as GameObject;
 		doodadClone.transform.parent = background.transform;
 
 		StartCoroutine(generateDoodad());
@@ -109,16 +109,25 @@ public class TerrainGeneration : MonoBehaviour {
 
 	private void calculateBorders() {
 		leftBorder = Camera.main.ViewportToWorldPoint(
-			new Vector3(-1, 0, terrainDistanceFromCamera)
+			new Vector3(0, 0, fieldStart)
 			).x;
-		
 		rightBorder = Camera.main.ViewportToWorldPoint(
-			new Vector3(1, 0, terrainDistanceFromCamera)
+			new Vector3(1, 0, fieldStart)
+			).x;
+
+		leftBorderBackground = Camera.main.ViewportToWorldPoint(
+			new Vector3(0, 0, fieldZMax)
+			).x;
+		rightBorderBackground = Camera.main.ViewportToWorldPoint(
+			new Vector3(1, 0, fieldZMax)
 			).x;
 	}
 
 	void Update() {
 		calculateBorders();
+	}
+
+	void FixedUpdate() {
 		generateTerrain();
 	}
 }

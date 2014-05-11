@@ -15,6 +15,7 @@ public class PlayerScript : ColorObject
 
 	void Update()
 	{
+		color = 0;
 		if(Input.GetKey("1")) color = 1;
 		if(Input.GetKey("2")) color = 2;
 		if(Input.GetKey("3")) color = 3;
