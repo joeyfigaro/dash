@@ -15,7 +15,7 @@ public class TerrainGeneration : MonoBehaviour {
 
 	private int doodadIndex = 0;
 	private float rightBorder;
-	private float leftBorder;
+//	private float leftBorder;
 	private float rightBorderBackground;
 	private float leftBorderBackground;
 	private float terrainY;
@@ -48,24 +48,23 @@ public class TerrainGeneration : MonoBehaviour {
 	private float lastTileX;
 	private void generateTerrain() {
 		Vector3 position;
-		Quaternion rot;
 		GameObject tileClone;
 
 		while((lastGroundX - rightBorderBackground <= ground.renderer.bounds.size.x) || (
 			lastTileX - rightBorderBackground <= tile.renderer.bounds.size.x)) {
 			if(lastGroundX - rightBorderBackground <= ground.renderer.bounds.size.x) {
-				position = new Vector3(lastGroundX, terrainY, fieldStart);
+				position = new Vector3(lastGroundX, terrainY, fieldStart + (ground.renderer.bounds.size.y / 2f));
 				GameObject groundClone;
-				for(int groundTile = 0; groundTile <= (fieldDepth / ground.renderer.bounds.size.y) - 2; groundTile++) {
-					position.z += ground.renderer.bounds.size.y;
-					groundClone = Instantiate(ground, position, Quaternion.Euler(90, 0, 0)) as GameObject;
+				for(int groundTile = 0; groundTile <= (fieldDepth / ground.renderer.bounds.size.y - 1); groundTile++) {
+					groundClone = Instantiate(ground, position, Quaternion.Euler(-90, 0, 0)) as GameObject;
 					groundClone.transform.parent = terrain.transform;
+					position.z += ground.renderer.bounds.size.y;
 				}
 				lastGroundX += ground.renderer.bounds.size.x;
 			}
 
 			if(lastTileX - rightBorderBackground <= tile.renderer.bounds.size.x) {
-				position = new Vector3(lastTileX, terrainY + 1.75f, fieldStart + tile.renderer.bounds.size.y);
+				position = new Vector3(lastTileX, terrainY, fieldStart);
 				tileClone = Instantiate(tile, position, Quaternion.Euler(0, 0, 0)) as GameObject;
 				tileClone.transform.parent = terrain.transform;
 				lastTileX += tile.renderer.bounds.size.x;
@@ -76,9 +75,9 @@ public class TerrainGeneration : MonoBehaviour {
 	public void generateGate(int color) {
 		gateScript.color = color;
 		GameObject gateClone = Instantiate(gate, new Vector3(
-			rightBorder,
-			terrainY + 2.35f * tile.renderer.bounds.size.y,
-			fieldStart + gate.renderer.bounds.size.y
+			rightBorder + (2 * gate.renderer.bounds.size.x),
+			terrainY + ((gate.renderer.bounds.size.y  + tile.renderer.bounds.size.y) / 2f),
+			fieldStart
 		), Quaternion.Euler(0, 0, 0)) as GameObject;
 		gateClone.transform.parent = terrain.transform;
 	}
@@ -89,7 +88,7 @@ public class TerrainGeneration : MonoBehaviour {
 
 		DoodadScript doodadScript = Doodads.Instance.randomDoodadScript();
 
-		float z = 3;
+		float z = 0;
 		if(!doodadScript.foreground) z = Doodads.Instance.getRandomOffset(doodadIndex);
 		GameObject doodadClone = Instantiate(doodadScript.gameObject, new Vector3(
 			calculateRightBorderAtZ(z) + doodadScript.gameObject.renderer.bounds.size.x, 
@@ -108,9 +107,9 @@ public class TerrainGeneration : MonoBehaviour {
 	}
 
 	private void calculateBorders() {
-		leftBorder = Camera.main.ViewportToWorldPoint(
-			new Vector3(0, 0, fieldStart)
-			).x;
+//		leftBorder = Camera.main.ViewportToWorldPoint(
+//			new Vector3(0, 0, fieldStart)
+//			).x;
 		rightBorder = Camera.main.ViewportToWorldPoint(
 			new Vector3(1, 0, fieldStart)
 			).x;

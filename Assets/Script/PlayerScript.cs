@@ -19,7 +19,15 @@ public class PlayerScript : ColorObject
 		if(Input.GetKey("1")) color = 1;
 		if(Input.GetKey("2")) color = 2;
 		if(Input.GetKey("3")) color = 3;
-		
+
+		if((color == 0) && (Input.touchCount > 0)) {
+
+			Touch touch = Input.GetTouch(0);
+			if(touch.position.y <= Screen.height * .33f) color = 3;
+			else if(touch.position.y <= Screen.height * .66f) color = 2;
+			else color = 1;
+		}
+
 		updateColor();
 	}
 
