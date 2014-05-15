@@ -41,7 +41,7 @@ public class GameOverScript : MonoBehaviour
 			)
 		{
 			// Reload the level
-			Application.LoadLevel("Menu");
+			Application.LoadLevel("intro-3-full");
 		}
 	}
 }
