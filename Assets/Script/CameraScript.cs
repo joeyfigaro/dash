@@ -19,7 +19,7 @@ public class CameraScript : MonoBehaviour {
 	public void hyperMode() {
 		Debug.Log ("Hypermode");
 		posDestOffset = new Vector3(-1, -1, 0);
-		rotDestOffset = Quaternion.Euler(0, 90, 0);
+		rotDestOffset = Quaternion.Euler(0, 45, 0);
 	}
 
 	private Vector3 getAdjustedPosition() {
@@ -55,17 +55,12 @@ public class CameraScript : MonoBehaviour {
 
 		transform.position = pos;
 
-//		pos.z = Camera.main.transform.position.z;
-//		Camera.main.transform.position = pos;
+		pos.z = Camera.main.transform.position.z;
+		Camera.main.transform.position = pos;
 
-//		Vector3 oldOffset = posOffset;
-//		posOffset = Vector3.Lerp(posOffset, new Vector3(0, 0, 0), Time.deltaTime);
-//		posCurOffset += oldOffset - posOffset;
-//		Camera.main.transform.position += posCurOffset;
-		
-//		posCurOffset = Vector3.Lerp(posCurOffset, posDestOffset, Time.deltaTime);
-//		Camera.main.transform.position += posCurOffset;
+		posCurOffset = Vector3.Lerp(posCurOffset, posDestOffset, Time.deltaTime);
+		Camera.main.transform.position += posCurOffset;
 
-//		Camera.main.transform.rotation = Quaternion.RotateTowards(transform.rotation, rotDestOffset, 10 * Time.deltaTime);
+		Camera.main.transform.rotation = Quaternion.RotateTowards(Camera.main.transform.rotation, rotDestOffset, 10 * Time.deltaTime);
 	}
 }
