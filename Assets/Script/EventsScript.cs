@@ -7,7 +7,8 @@ public class EventsScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		StartCoroutine(engage());
+//		StartCoroutine(engage());
+		StartCoroutine(hyperMode());
 	}
 	
 	// Update is called once per frame
@@ -25,5 +26,13 @@ public class EventsScript : MonoBehaviour {
 
 		BeatsEngine beatsEngine = GetComponent<BeatsEngine>();
 		beatsEngine.engage();
+	}
+
+	IEnumerator hyperMode() {
+		Debug.Log ("Calling hypermode Start");
+		for( float timer = 0; timer <= 5; timer += Time.deltaTime)
+			yield return 0;
+		Debug.Log ("Calling hypermode");
+		Camera.main.GetComponent<CameraScript>().hyperMode();
 	}
 }

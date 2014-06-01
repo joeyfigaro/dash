@@ -7,8 +7,19 @@ public class CameraScript : MonoBehaviour {
 	public float cameraFieldInitial = 3f;
 	public float cameraFieldMax = 6f;
 
+	private Vector3 posDestOffset = new Vector3(0, 0, 0);
+	private Quaternion rotDestOffset = new Quaternion(0, 0, 0, 0);	private Vector3 posCurOffset = new Vector3(0, 0, 0);
+	private Quaternion rotCurOffset = new Quaternion(0, 0, 0, 0);
+
+
 	void Start () {
 		transform.position = getAdjustedPosition();
+	}
+
+	public void hyperMode() {
+		Debug.Log ("Hypermode");
+		posDestOffset = new Vector3(-1, -1, 0);
+		rotDestOffset = Quaternion.Euler(0, 90, 0);
 	}
 
 	private Vector3 getAdjustedPosition() {
@@ -35,12 +46,26 @@ public class CameraScript : MonoBehaviour {
 				).x) / 1.5f;
 		}
 
-		float newField = cameraFieldInitial + (cameraFieldMax - (speedRatio * cameraFieldMax));
+//		float newField = cameraFieldInitial + (cameraFieldMax - (speedRatio * cameraFieldMax));
 
-		Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize, newField, Time.deltaTime * 5f);
+//		Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize, newField, Time.deltaTime * 5f);
 
-		pos.x = pos.x + (cameraLeftOffset - (speedRatio * cameraLeftOffset));
+//		pos.x = pos.x + (cameraLeftOffset - (speedRatio * cameraLeftOffset));
 		pos.y = 4.9f;
+
 		transform.position = pos;
+
+//		pos.z = Camera.main.transform.position.z;
+//		Camera.main.transform.position = pos;
+
+//		Vector3 oldOffset = posOffset;
+//		posOffset = Vector3.Lerp(posOffset, new Vector3(0, 0, 0), Time.deltaTime);
+//		posCurOffset += oldOffset - posOffset;
+//		Camera.main.transform.position += posCurOffset;
+		
+//		posCurOffset = Vector3.Lerp(posCurOffset, posDestOffset, Time.deltaTime);
+//		Camera.main.transform.position += posCurOffset;
+
+//		Camera.main.transform.rotation = Quaternion.RotateTowards(transform.rotation, rotDestOffset, 10 * Time.deltaTime);
 	}
 }

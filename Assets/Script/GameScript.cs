@@ -4,11 +4,14 @@ using System.Collections;
 public class GameScript : MonoBehaviour {
 	public static GameScript Instance;
 
+	public GameObject cameraBox;
+
 	public float playerBaseSpeed = 30f;
 
 	// Use this for initialization
 	void Start () {
 		StartCoroutine(engage());
+		StartCoroutine(hyperMode());
 	}
 	
 	// Update is called once per frame
@@ -25,6 +28,14 @@ public class GameScript : MonoBehaviour {
 		ps.baseSpeed = playerBaseSpeed;
 
 		BeatsEngine.Instance.engage();
+	}
+	
+	IEnumerator hyperMode() {
+		Debug.Log ("Calling hypermode Start");
+		for( float timer = 0; timer <= 5; timer += Time.deltaTime)
+			yield return 0;
+		Debug.Log ("Calling hypermode");
+		cameraBox.GetComponent<CameraScript>().hyperMode();
 	}
 
 	void Awake()
