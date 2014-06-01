@@ -3,13 +3,11 @@ using System.Collections;
 
 public class GateScript : ColorObject {
 	void Start() {
+		updateColor();
 	}
 
 	void Update () {
-		if (renderer.IsVisibleFrom(Camera.main) == false)
-		{
-			Destroy(gameObject);
-		}
+		destroyIfOffscreen();
 		updateColor();
 	}
 	

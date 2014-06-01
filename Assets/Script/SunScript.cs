@@ -21,7 +21,7 @@ public class SunScript : ColorObject {
 	// Update is called once per frame
 	void Update () {
 		transform.localScale = Vector3.Lerp(transform.localScale, throbGoal, Time.deltaTime * 20);
-		gameObject.renderer.material.color = realColor();//Color.Lerp(gameObject.renderer.material.color, realColor(), Time.deltaTime * 10);
+		changeColor();
 		
 		Camera.main.backgroundColor = gameObject.renderer.material.color / 1.25f;
 

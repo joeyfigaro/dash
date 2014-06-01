@@ -12,6 +12,7 @@ public class BeatsEngine : MonoBehaviour {
 	public GameObject sun;
 
 	private SunScript sunScript;
+	private ArrayList tintables = new ArrayList();
 	private TerrainGeneration terrainGeneration;
 	private ColorDefinitions colorDefinitions;
 	
@@ -22,11 +23,22 @@ public class BeatsEngine : MonoBehaviour {
 
 	private int nextColor = 0;
 
+	private AudioSource audioSource;
+
 	// Use this for initialization
 	void Start () {
+		audioSource = GetComponent<AudioSource>();
 		sunScript = sun.GetComponent<SunScript>();
 		terrainGeneration = GetComponent<TerrainGeneration>();
 		StartCoroutine(generateBeats());
+	}
+
+	public void registerTintable(ColorObject tintable) {
+		tintables.Add(tintable);
+	}
+
+	public void unregisterTintable(ColorObject tintable) {
+		tintables.Remove(tintable);
 	}
 
 	void OnGUI(){
@@ -49,6 +61,9 @@ public class BeatsEngine : MonoBehaviour {
 			if(nextColor >= ColorDefinitions.colors.Length) nextColor -= ColorDefinitions.colors.Length - 1;
 
 			sunScript.color = nextColor;
+			foreach(ColorObject tintMe in tintables) {
+				tintMe.color = nextColor;
+			}
 		}
 		if(generateGates && (beats % beatsPerGate == 0)) {
 			terrainGeneration.generateGate(nextColor);
@@ -77,8 +92,7 @@ public class BeatsEngine : MonoBehaviour {
 
 	private void MakeSound(AudioClip originalClip)
 	{
-		// As it is not 3D audio clip, position doesn't matter.
-		AudioSource.PlayClipAtPoint(originalClip, transform.position);
+		audioSource.PlayOneShot(originalClip);
 	}
 
 	void Awake()
