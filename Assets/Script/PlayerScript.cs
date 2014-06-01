@@ -15,6 +15,11 @@ public class PlayerScript : ColorObject
 
 	void Update()
 	{
+		if ((transform.position.y < (-10)) && (renderer.IsVisibleFrom(Camera.main) == false))
+		{
+			Destroy(gameObject);
+		}
+
 		color = 0;
 		if(Input.GetKey("1")) color = 1;
 		if(Input.GetKey("2")) color = 2;
@@ -41,7 +46,7 @@ public class PlayerScript : ColorObject
 	}
 
 	private void calculateSpeed() {
-		rigidbody2D.velocity = new Vector2(baseSpeed * (BeatsEngine.Instance.bpm / 60), rigidbody2D.velocity.y);
+		if(BeatsEngine.Instance != null) rigidbody2D.velocity = new Vector2(baseSpeed * (BeatsEngine.Instance.bpm / 60), rigidbody2D.velocity.y);
 	}
 
 	void OnDestroy() {
@@ -57,7 +62,7 @@ public class PlayerScript : ColorObject
 				if(collision.gameObject.transform.rotation.eulerAngles.z != 0) {
 					BoxCollider2D collider = collision.gameObject.GetComponent<BoxCollider2D>();
 					collider.isTrigger = false;
-				}// else Destroy(gameObject);
+				} else Destroy(gameObject);
 			}
 			else {
 				gatesPassed++;
