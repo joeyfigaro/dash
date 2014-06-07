@@ -5,11 +5,11 @@ public class CityScript : ColorObject {
 
 	// Use this for initialization
 	void Start () {
-		registerWithBeatsEngine();
+		registerWithTintSource();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		changeColor();
+		changeRenderedColor();
 	}
 }

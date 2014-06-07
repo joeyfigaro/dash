@@ -17,7 +17,7 @@ public class CameraScript : MonoBehaviour {
 	}
 
 	public void hyperMode() {
-		Debug.Log ("Hypermode");
+//		Debug.Log ("Hypermode");
 		posDestOffset = new Vector3(-1, -1, 0);
 		rotDestOffset = Quaternion.Euler(0, 45, 0);
 	}
@@ -51,7 +51,7 @@ public class CameraScript : MonoBehaviour {
 //		Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize, newField, Time.deltaTime * 5f);
 
 //		pos.x = pos.x + (cameraLeftOffset - (speedRatio * cameraLeftOffset));
-		pos.y = 4.9f;
+		pos.y = 4.0f;
 
 		transform.position = pos;
 

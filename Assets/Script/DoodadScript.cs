@@ -9,11 +9,11 @@ public class DoodadScript : ColorObject {
 	public bool foreground = false;
 
 	void Start () {
-		registerWithBeatsEngine();
+		registerWithTintSource();
 	}
 
 	void Update() {
-		changeColor();
+		changeRenderedColor();
 		destroyIfOffscreen();
 	}
 }

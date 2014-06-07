@@ -8,10 +8,10 @@ public class GameScript : MonoBehaviour {
 
 	public float playerBaseSpeed = 30f;
 
-	// Use this for initialization
 	void Start () {
 		StartCoroutine(engage());
 		StartCoroutine(hyperMode());
+//		BeatsEngine.Instance.randomizeColor();
 	}
 	
 	// Update is called once per frame

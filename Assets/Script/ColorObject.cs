@@ -2,17 +2,25 @@
 using System.Collections;
 
 public class ColorObject : MonoBehaviour {
-	public int color = 0;
+	private Color color = new Color();
 
-	public Color realColor() {
-		return ColorDefinitions.colors[color];
+	public void setColor(int colorInt) {
+		color = ColorDefinitions.colors[colorInt];
 	}
 
-	protected void changeColor() {
-		gameObject.renderer.material.color = realColor();
+	public void setColor(Color colorV) {
+		color = colorV;
 	}
 
-	public void registerWithBeatsEngine() {
+	public Color getColor() {
+		return color;
+	}
+
+	protected void changeRenderedColor() {
+		gameObject.renderer.material.color = color;
+	}
+
+	public void registerWithTintSource() {
 		BeatsEngine.Instance.registerTintable(this);
 	}
 

@@ -44,6 +44,11 @@ public class TerrainGeneration : MonoBehaviour {
 		StartCoroutine(generateDoodad());
 	}
 
+	public float getTerrainY() {
+		Debug.Log (terrainY);
+		return terrainY;
+	}
+
 	private float lastGroundX;
 	private float lastTileX;
 	private void generateTerrain() {
@@ -72,8 +77,7 @@ public class TerrainGeneration : MonoBehaviour {
 		}
 	}
 
-	public void generateGate(int color) {
-		gateScript.color = color;
+	public void generateGate() {
 		GameObject gateClone = Instantiate(gate, new Vector3(
 			rightBorder + (2 * gate.renderer.bounds.size.x),
 			terrainY + ((gate.renderer.bounds.size.y  + tile.renderer.bounds.size.y) / 2f),

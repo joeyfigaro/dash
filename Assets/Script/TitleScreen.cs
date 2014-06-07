@@ -2,6 +2,8 @@
 using System.Collections;
 
 public class TitleScreen : MonoBehaviour {
+	public GameObject player;
+
 
 	// Use this for initialization
 	void Start () {
@@ -10,6 +12,10 @@ public class TitleScreen : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if((Input.inputString.Length > 0) || (Input.touchCount > 0)) Application.LoadLevel("Level");
+		Vector3 pos = transform.position;
+		pos.y = player.transform.position.y;
+
+		transform.position = pos;
+//		if((Input.inputString.Length > 0) || (Input.touchCount > 0)) Application.LoadLevel("Level");
 	}
 }

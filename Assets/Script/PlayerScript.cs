@@ -20,17 +20,17 @@ public class PlayerScript : ColorObject
 			Destroy(gameObject);
 		}
 
-		color = 0;
-		if(Input.GetKey("1")) color = 1;
-		if(Input.GetKey("2")) color = 2;
-		if(Input.GetKey("3")) color = 3;
+		setColor(0);
+		if(Input.GetKey("1")) setColor(1);
+		if(Input.GetKey("2")) setColor(2);
+		if(Input.GetKey("3")) setColor(3);
 
-		if((color == 0) && (Input.touchCount > 0)) {
+		if(getColor().Equals(ColorDefinitions.colors[0]) && (Input.touchCount > 0)) {
 
 			Touch touch = Input.GetTouch(0);
-			if(touch.position.y <= Screen.height * .33f) color = 3;
-			else if(touch.position.y <= Screen.height * .66f) color = 2;
-			else color = 1;
+			if(touch.position.y <= Screen.height * .33f) setColor(3);
+			else if(touch.position.y <= Screen.height * .66f) setColor(2);
+			else setColor(1);
 		}
 
 		updateColor();
@@ -42,7 +42,7 @@ public class PlayerScript : ColorObject
 	}
 
 	private void updateColor() {
-		trail.startColor = realColor();
+		trail.startColor = getColor();
 	}
 
 	private void calculateSpeed() {
@@ -58,7 +58,7 @@ public class PlayerScript : ColorObject
 		ColorObject enemyColorObject = collision.gameObject.GetComponent<ColorObject>();
 
 		if(enemyColorObject != null) {
-			if(color != enemyColorObject.color) {
+			if(!getColor().Equals(enemyColorObject.getColor ())) {
 				if(collision.gameObject.transform.rotation.eulerAngles.z != 0) {
 					BoxCollider2D collider = collision.gameObject.GetComponent<BoxCollider2D>();
 					collider.isTrigger = false;

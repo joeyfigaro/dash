@@ -3,6 +3,7 @@ using System.Collections;
 
 public class GateScript : ColorObject {
 	void Start() {
+		BeatsEngine.Instance.registerTintable(this);
 		updateColor();
 	}
 
@@ -12,7 +13,7 @@ public class GateScript : ColorObject {
 	}
 	
 	private void updateColor() {
-		gameObject.renderer.material.color = realColor();
-		transform.GetChild(0).renderer.material.color = realColor();
+		changeRenderedColor();
+		transform.GetChild(0).renderer.material.color = getColor();
 	}
 }

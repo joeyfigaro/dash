@@ -12,7 +12,6 @@ public class BeatsEngine : MonoBehaviour {
 	public GameObject sun;
 
 	private SunScript sunScript;
-	private ArrayList tintables = new ArrayList();
 	private TerrainGeneration terrainGeneration;
 	private ColorDefinitions colorDefinitions;
 	
@@ -21,24 +20,19 @@ public class BeatsEngine : MonoBehaviour {
 	public int beatsPerGate = 4;
 	private bool generateGates = false;
 
-	private int nextColor = 0;
-
 	private AudioSource audioSource;
 
-	// Use this for initialization
 	void Start () {
-		audioSource = GetComponent<AudioSource>();
-		sunScript = sun.GetComponent<SunScript>();
-		terrainGeneration = GetComponent<TerrainGeneration>();
 		StartCoroutine(generateBeats());
+		sunScript.randomizeColor();
 	}
 
 	public void registerTintable(ColorObject tintable) {
-		tintables.Add(tintable);
+		sunScript.registerTintable(tintable);
 	}
-
+	
 	public void unregisterTintable(ColorObject tintable) {
-		tintables.Remove(tintable);
+		sunScript.unregisterTintable(tintable);
 	}
 
 	void OnGUI(){
@@ -56,17 +50,10 @@ public class BeatsEngine : MonoBehaviour {
 
 		beats++;
 
-		if(generateGates && ((beats + sunLeadBeats) % beatsPerGate == 0)) {
-			nextColor += Random.Range (1, ColorDefinitions.colors.Length - 1);
-			if(nextColor >= ColorDefinitions.colors.Length) nextColor -= ColorDefinitions.colors.Length - 1;
+		if(generateGates && ((beats + sunLeadBeats) % beatsPerGate == 0)) sunScript.randomizeColor();
 
-			sunScript.color = nextColor;
-			foreach(ColorObject tintMe in tintables) {
-				tintMe.color = nextColor;
-			}
-		}
 		if(generateGates && (beats % beatsPerGate == 0)) {
-			terrainGeneration.generateGate(nextColor);
+			terrainGeneration.generateGate();
 		}
 
 		if(beats % beatsPerSubthrob == 0) {
@@ -103,5 +90,9 @@ public class BeatsEngine : MonoBehaviour {
 			Debug.LogError("Multiple instances of BeatsEngine!");
 		}
 		Instance = this;
+		
+		audioSource = GetComponent<AudioSource>();
+		sunScript = sun.GetComponent<SunScript>();
+		terrainGeneration = GetComponent<TerrainGeneration>();
 	}
 }
