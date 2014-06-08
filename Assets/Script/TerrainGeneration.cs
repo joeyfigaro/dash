@@ -45,7 +45,6 @@ public class TerrainGeneration : MonoBehaviour {
 	}
 
 	public float getTerrainY() {
-		Debug.Log (terrainY);
 		return terrainY;
 	}
 
@@ -120,8 +119,6 @@ public class TerrainGeneration : MonoBehaviour {
 		rightBorderBackground = Camera.main.ViewportToWorldPoint(
 			new Vector3(1, 0, fieldZMax)
 			).x;
-		
-		Debug.Log (rightBorder);
 	}
 
 	void Update() {

@@ -17,7 +17,7 @@ public class ColorObject : MonoBehaviour {
 	}
 
 	protected void changeRenderedColor() {
-		gameObject.renderer.material.color = color;
+		gameObject.renderer.material.SetColor("_SunTint", color);
 	}
 
 	public void registerWithTintSource() {
