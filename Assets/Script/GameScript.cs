@@ -8,9 +8,11 @@ public class GameScript : MonoBehaviour {
 
 	public float playerBaseSpeed = 30f;
 
+	private SunScript sunScript;
+
 	void Start () {
 		StartCoroutine(engage());
-		StartCoroutine(hyperMode());
+//		StartCoroutine(hyperMode());
 //		BeatsEngine.Instance.randomizeColor();
 	}
 	

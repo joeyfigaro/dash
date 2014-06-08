@@ -111,19 +111,17 @@ public class TerrainGeneration : MonoBehaviour {
 	}
 
 	private void calculateBorders() {
-//		leftBorder = Camera.main.ViewportToWorldPoint(
-//			new Vector3(0, 0, fieldStart)
-//			).x;
 		rightBorder = Camera.main.ViewportToWorldPoint(
 			new Vector3(1, 0, fieldStart)
 			).x;
-
 		leftBorderBackground = Camera.main.ViewportToWorldPoint(
 			new Vector3(0, 0, fieldZMax)
 			).x;
 		rightBorderBackground = Camera.main.ViewportToWorldPoint(
 			new Vector3(1, 0, fieldZMax)
 			).x;
+		
+		Debug.Log (rightBorder);
 	}
 
 	void Update() {

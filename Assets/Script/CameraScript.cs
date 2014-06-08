@@ -6,6 +6,7 @@ public class CameraScript : MonoBehaviour {
 
 	public float cameraFieldInitial = 3f;
 	public float cameraFieldMax = 6f;
+	public float cameraBoxY = 3.5f;
 
 	private Vector3 posDestOffset = new Vector3(0, 0, 0);
 	private Quaternion rotDestOffset = new Quaternion(0, 0, 0, 0);	private Vector3 posCurOffset = new Vector3(0, 0, 0);
@@ -51,7 +52,7 @@ public class CameraScript : MonoBehaviour {
 //		Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize, newField, Time.deltaTime * 5f);
 
 //		pos.x = pos.x + (cameraLeftOffset - (speedRatio * cameraLeftOffset));
-		pos.y = 4.0f;
+		pos.y = cameraBoxY;
 
 		transform.position = pos;
 
