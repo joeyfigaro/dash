@@ -93,7 +93,7 @@ public class SunScript : ColorObject {
 		}
 		changeRenderedColor();
 		updateTintables();
-		Camera.main.backgroundColor = gameObject.renderer.material.color / 1.25f;
+		Camera.main.backgroundColor = getColor() / 1.25f;
 	}
 
 	public void throb() {
