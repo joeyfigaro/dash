@@ -1,93 +1,100 @@
-﻿Shader "Custom/Tint" {
-	Properties {
-		_MainTex ("Base (RGB)", 2D) = "white" {}
-//		_MainTex ("Greyscale (R) Alpha (A)", 2D) = "white" {}
-//        _ColorRamp ("Colour Palette", 2D) = "gray" {}
+﻿Shader "Dash/Tint"
+{
+	Properties
+	{
+		[PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
+		_Color ("Tint", Color) = (1,1,1,1)
+		_SunTint ("Sun Tint", Color) = (1,1,1,1)
+		[MaterialToggle] PixelSnap ("Pixel snap", Float) = 0
 	}
-	SubShader {
-		Pass {
-			CGPROGRAM
-                sampler2D _MainTex;
-            ENDCG
+	SubShader
+	{
+		Tags
+		{ 
+			"Queue"="Transparent" 
+			"IgnoreProjector"="True" 
+			"RenderType"="Transparent" 
+			"PreviewType"="Plane"
+			"CanUseSpriteAtlas"="True"
 		}
-		void surf (Input IN, inout SurfaceOutput o) {
-		    const float3 ColorToReplace = float3(1,1,1); // green
-		    const float3 NewColor = float3(1,0,1); // magenta
-		   
-		    // read pixel from texture
-		    half4 c = tex2D (_MainTex, IN.uv_MainTex);
-		   
-		    // check how much ColorToReplace equals c.rgb in range 0..1
-		    // 0=no match, 1=full match
-		    float weight = saturate(dot(c.rgb, ColorToReplace));
-		   
-		    // blend between both colors
-		    c.rgb = lerp(c.rgb, NewColor, weight);
-		   
-		    o.Albedo = c.rgb;
-		    o.Alpha = c.a;
-		}
-	}
-//	SubShader {
-//        Pass {
-//            Name "ColorReplacement"
-//           
-//            CGPROGRAM
-//                #pragma vertex vert
-//                #pragma fragment frag
-//                #pragma fragmentoption ARB_precision_hint_fastest
-//                #include "UnityCG.cginc"
-//               
-//                struct v2f
-//                {
-//                    float4  pos : SV_POSITION;
-//                    float2  uv : TEXCOORD0;
-//                };
-// 
-//                v2f vert (appdata_tan v)
-//                {
-//                    v2f o;
-//                    o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
-//                    o.uv = v.texcoord.xy;
-//                    return o;
-//                }
-//               
-//                sampler2D _MainTex;
-//                sampler2D _ColorRamp;
-// 
-//                float4 frag(v2f i) : COLOR
-//                {
-//                // SURFACE COLOUR
-//                    float greyscale = tex2D(_MainTex, i.uv).r;
-//               
-//                // RESULT
-//                    float4 result;
-//                    result.rgb = tex2D(_ColorRamp, float2(greyscale, 0.5)).rgb;
-//                    result.a = tex2D(_MainTex, i.uv).a;
-//                    return result;
-//                }
-//            ENDCG
-//        }
-//    }
-//	SubShader {
-//		Tags { "RenderType"="Opaque" }
-//		LOD 200
-//		
+
+		Cull Off
+		Lighting Off
+		ZWrite Off
+		Fog { Mode Off }
+		Blend One OneMinusSrcAlpha
+		
+//		Pass
+//		{
 //		CGPROGRAM
-//		#pragma surface surf Lambert
+//			#pragma vertex vert
+//			#pragma fragment frag
+//			#pragma multi_compile DUMMY PIXELSNAP_ON
+//			#include "UnityCG.cginc"
+//			
+//			struct appdata_t
+//			{
+//				float4 vertex   : POSITION;
+//				float4 color    : COLOR;
+//				float2 texcoord : TEXCOORD0;
+//			};
 //
-//		sampler2D _MainTex;
+//			struct v2f
+//			{
+//				float4 vertex   : SV_POSITION;
+//				fixed4 color    : COLOR;
+//				half2 texcoord  : TEXCOORD0;
+//			};
+//			
+//			sampler2D _MainTex;
+//			fixed4 _Color;
+//			fixed4 _SunTint;
 //
-//		struct Input {
-//			float2 uv_MainTex;
-//		};
+//			v2f vert(appdata_t IN)
+//			{
+//				v2f OUT;
+//				OUT.vertex = mul(UNITY_MATRIX_MVP, IN.vertex);
+//				OUT.texcoord = IN.texcoord;
+////				OUT.color = IN.color * _Color;
+//				OUT.color = IN.color * _SunTint;
+//				
+//				#ifdef PIXELSNAP_ON
+//				OUT.vertex = UnityPixelSnap (OUT.vertex);
+//				#endif
 //
-//		void surf (Input IN, inout SurfaceOutput o) {
-//			half4 c = tex2D (_MainTex, IN.uv_MainTex);
-//			o.Albedo = c.rgb;
-//			o.Alpha = c.a;
-//		}
+//				return OUT;
+//			}
+//
+//
+//			fixed4 frag(v2f IN) : SV_Target
+//			{
+//				fixed4 c = tex2D(_MainTex, IN.texcoord) * IN.color;
+//				c.rgb *= c.a;
+//				return c;
+//			}
 //		ENDCG
-//	} 
-//	FallBack "Diffuse"
+//		}
+		
+		CGPROGRAM
+		#pragma surface surf Lambert alpha
+			sampler2D _MainTex;
+			fixed4 _SunTint;
+
+			struct Input {
+				float2 uv_MainTex;
+				float2 uv_BumpMap;
+				float3 viewDir;
+			};
+
+			void surf (Input IN, inout SurfaceOutput o) {
+				half4 c = tex2D (_MainTex, IN.uv_MainTex);
+			   
+				float isColorToReplace = (c.r * c.g * c.b) == 1;
+				c.rgb = ((1 - isColorToReplace) * c.rgb) + (isColorToReplace * (c.rgb * _SunTint));
+			   
+			    o.Albedo = c.rgb;
+			    o.Alpha = c.a;
+			}
+		ENDCG
+	}
 }
