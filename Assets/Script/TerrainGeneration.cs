@@ -93,9 +93,14 @@ public class TerrainGeneration : MonoBehaviour {
 
 		float z = 0;
 		if(!doodadScript.foreground) z = Doodads.Instance.getRandomOffset(doodadIndex);
+
+		float yOffset = doodadScript.gameObject.renderer.bounds.size.y / 2f;
+		if(doodadScript.gameObject.GetComponent<SpriteRenderer>().sprite.bounds.center.y != 0) yOffset = 0;
+
+
 		GameObject doodadClone = Instantiate(doodadScript.gameObject, new Vector3(
 			calculateRightBorderAtZ(z) + doodadScript.gameObject.renderer.bounds.size.x, 
-			terrainY + (doodadScript.gameObject.renderer.bounds.size.y / 2f),
+			terrainY + yOffset,
 			z
 			), doodadScript.gameObject.transform.rotation) as GameObject;
 		doodadClone.transform.parent = background.transform;
