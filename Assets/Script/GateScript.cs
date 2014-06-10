@@ -14,6 +14,6 @@ public class GateScript : ColorObject {
 	
 	private void updateColor() {
 		changeRenderedColor();
-		transform.GetChild(0).renderer.material.color = getColor();
+		transform.GetChild(0).renderer.material.SetColor("_SunTint", getColor());
 	}
 }

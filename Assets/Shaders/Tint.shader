@@ -89,8 +89,9 @@
 			void surf (Input IN, inout SurfaceOutput o) {
 				half4 c = tex2D (_MainTex, IN.uv_MainTex);
 			   
-				float isColorToReplace = (c.r * c.g * c.b) == 1;
-				c.rgb = ((1 - isColorToReplace) * c.rgb) + (isColorToReplace * (255 * c.rgb * _SunTint));
+//				float isColorToReplace = (c.r * c.g * c.b) == 1;
+				float isColorToReplace = abs(1 - (c.r / c.g / c.b)) <= .8;
+				c.rgb = ((1 - isColorToReplace) * c.rgb) + (isColorToReplace * (5 * c.rgb * _SunTint));
 			   
 			    o.Albedo = c.rgb;
 			    o.Alpha = c.a;
