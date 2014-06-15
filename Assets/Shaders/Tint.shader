@@ -79,6 +79,7 @@
 		#pragma surface surf Lambert alpha
 			sampler2D _MainTex;
 			fixed4 _SunTint;
+			fixed4 _Tint;
 
 			struct Input {
 				float2 uv_MainTex;
@@ -89,9 +90,10 @@
 			void surf (Input IN, inout SurfaceOutput o) {
 				half4 c = tex2D (_MainTex, IN.uv_MainTex);
 			   
-//				float isColorToReplace = (c.r * c.g * c.b) == 1;
-				float isColorToReplace = abs(1 - (c.r / c.g / c.b)) <= .8;
-				c.rgb = ((1 - isColorToReplace) * c.rgb) + (isColorToReplace * (5 * c.rgb * _SunTint));
+				float isColorToReplace = (c.g >= 0.1) && (c.b <= 0.1);
+//				float isColorToReplace = abs(1 - (c.r / c.g / c.b)) <= .8;
+				c.rgb = ((1 - isColorToReplace) * (5 * c.rgb)) + (isColorToReplace * (5 * c.g * _SunTint));
+//				c.a = ((1 - isColorToReplace) * c.a) + (isColorToReplace);
 			   
 			    o.Albedo = c.rgb;
 			    o.Alpha = c.a;
