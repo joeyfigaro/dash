@@ -1,12 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class DoodadScript : MonoBehaviour {
-	public Sprite[] doodads;
+public class DoodadScript : ColorObject {
+	public float possibleUnderhang;
+	public float possibleOverhang;
+	public int rarity = 10;
+
+	public bool foreground = false;
+	public bool sky = false;
 
 	void Start () {
-		int sprite = Random.Range(0, doodads.Length);
-		SpriteRenderer sprRenderer = (SpriteRenderer) renderer;
-		sprRenderer.sprite = doodads[sprite];
+		registerWithTintSource();
+	}
+
+	void Update() {
+		changeRenderedColor();
+		destroyIfOffscreen();
 	}
 }

@@ -4,9 +4,11 @@ using System.Collections;
 public class Playlist : MonoBehaviour {
 	public static Playlist Instance;
 
-	public AudioClip rhythm;
 	public AudioClip sunThrob;
 	public AudioClip gatePassed;
+
+	[SerializeField]
+	public BeatAspect[] beatAspects;
 
 	void Awake()
 	{

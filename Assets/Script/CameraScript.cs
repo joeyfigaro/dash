@@ -6,12 +6,21 @@ public class CameraScript : MonoBehaviour {
 
 	public float cameraFieldInitial = 3f;
 	public float cameraFieldMax = 6f;
+	public float cameraBoxY = 3.5f;
 
-	private PlayerScript ps;
+	private Vector3 posDestOffset = new Vector3(0, 0, 0);
+	private Quaternion rotDestOffset = new Quaternion(0, 0, 0, 0);	private Vector3 posCurOffset = new Vector3(0, 0, 0);
+	private Quaternion rotCurOffset = new Quaternion(0, 0, 0, 0);
+
 
 	void Start () {
-		ps = player.GetComponent<PlayerScript>();
 		transform.position = getAdjustedPosition();
+	}
+
+	public void hyperMode() {
+//		Debug.Log ("Hypermode");
+		posDestOffset = new Vector3(-1, -1, 0);
+		rotDestOffset = Quaternion.Euler(0, 45, 0);
 	}
 
 	private Vector3 getAdjustedPosition() {
@@ -21,41 +30,38 @@ public class CameraScript : MonoBehaviour {
 		return pos;
 	}
 
-	void Update () {
-		Vector3 pos = getAdjustedPosition();
-		Vector3 vel = player.rigidbody2D.velocity;
-		
+	void LateUpdate () {
 		float speedRatio = .5f;
 
-//		float speedRatio = ps.baseSpeed / vel.x;
-//		if(float.IsNaN(speedRatio)) speedRatio = 1;
-//		if(float.IsInfinity(speedRatio)) speedRatio = 1;
-//		if(speedRatio == 0) speedRatio = 1;
+		Vector3 pos = transform.position;
+		float cameraLeftOffset = 0;
 
-		float newField = cameraFieldInitial + (cameraFieldMax - (speedRatio * cameraFieldMax));
+		if(player != null) {
+			pos = getAdjustedPosition();
+			cameraLeftOffset = (
+				Camera.main.ViewportToWorldPoint(
+				new Vector3(0, 0, player.transform.position.z)
+				).x - 
+				Camera.main.ViewportToWorldPoint(
+				new Vector3(-1, 0, player.transform.position.z)
+				).x) / 1.5f;
+		}
 
-		Camera.main.orthographicSize = Mathf.Lerp(camera.orthographicSize, newField, Time.deltaTime * 5f);
+//		float newField = cameraFieldInitial + (cameraFieldMax - (speedRatio * cameraFieldMax));
 
-		float cameraLeftOffset = (
-			Camera.main.ViewportToWorldPoint(
-			new Vector3(0, 0, 0)
-			).x - 
-			Camera.main.ViewportToWorldPoint(
-			new Vector3(-1, 0, 0)
-			).x) / 2;
-		pos.x = pos.x + (cameraLeftOffset - (speedRatio * cameraLeftOffset));
-		pos.x = Mathf.Lerp(transform.position.x, pos.x, Time.deltaTime * ps.baseSpeed);
+//		Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize, newField, Time.deltaTime * 5f);
 
-		float cameraBottomOffset = (
-			Camera.main.ViewportToWorldPoint(
-			new Vector3(0, 0, 0)
-			).y -
-			Camera.main.ViewportToWorldPoint(
-			new Vector3(0, -1, 0)
-			).y) / 2;
-		pos.y = pos.y + (cameraBottomOffset - (speedRatio * cameraBottomOffset));
-		pos.y = Mathf.Lerp(transform.position.y, pos.y, Time.deltaTime * 5f);
+//		pos.x = pos.x + (cameraLeftOffset - (speedRatio * cameraLeftOffset));
+		pos.y = cameraBoxY;
 
 		transform.position = pos;
+
+		pos.z = Camera.main.transform.position.z;
+		Camera.main.transform.position = pos;
+
+		posCurOffset = Vector3.Lerp(posCurOffset, posDestOffset, Time.deltaTime);
+		Camera.main.transform.position += posCurOffset;
+
+		Camera.main.transform.rotation = Quaternion.RotateTowards(Camera.main.transform.rotation, rotDestOffset, 10 * Time.deltaTime);
 	}
 }

@@ -15,10 +15,24 @@ public class PlayerScript : ColorObject
 
 	void Update()
 	{
-		if(Input.GetKey("1")) color = 1;
-		if(Input.GetKey("2")) color = 2;
-		if(Input.GetKey("3")) color = 3;
-		
+		if ((transform.position.y < (-10)) && (renderer.IsVisibleFrom(Camera.main) == false))
+		{
+			Destroy(gameObject);
+		}
+
+		setColor(0);
+		if(Input.GetKey("1")) setColor(1);
+		if(Input.GetKey("2")) setColor(2);
+		if(Input.GetKey("3")) setColor(3);
+
+		if(getColor().Equals(ColorDefinitions.colors[0]) && (Input.touchCount > 0)) {
+
+			Touch touch = Input.GetTouch(0);
+			if(touch.position.y <= Screen.height * .33f) setColor(3);
+			else if(touch.position.y <= Screen.height * .66f) setColor(2);
+			else setColor(1);
+		}
+
 		updateColor();
 	}
 
@@ -28,17 +42,11 @@ public class PlayerScript : ColorObject
 	}
 
 	private void updateColor() {
-		trail.startColor = realColor();	//Color.Lerp(trail.startColor, realColor(), Time.deltaTime * 5);
-	}
-
-	void OnGUI(){
-		GUI.Label(new Rect(0, 0, Screen.width,Screen.height), rigidbody2D.velocity.x.ToString());
+		trail.startColor = getColor();
 	}
 
 	private void calculateSpeed() {
-//		rigidbody2D.velocity = new Vector2(baseSpeed +
-//		                                   (baseSpeed * Mathf.Sqrt(2f * gatesPassed)), rigidbody2D.velocity.y);
-		rigidbody2D.velocity = new Vector2(baseSpeed * (BeatsEngine.Instance.bpm / 60), rigidbody2D.velocity.y);
+		if(BeatsEngine.Instance != null) rigidbody2D.velocity = new Vector2(baseSpeed * (BeatsEngine.Instance.bpm / 60), rigidbody2D.velocity.y);
 	}
 
 	void OnDestroy() {
@@ -50,7 +58,7 @@ public class PlayerScript : ColorObject
 		ColorObject enemyColorObject = collision.gameObject.GetComponent<ColorObject>();
 
 		if(enemyColorObject != null) {
-			if(color != enemyColorObject.color) {
+			if(!getColor().Equals(enemyColorObject.getColor ())) {
 				if(collision.gameObject.transform.rotation.eulerAngles.z != 0) {
 					BoxCollider2D collider = collision.gameObject.GetComponent<BoxCollider2D>();
 					collider.isTrigger = false;
@@ -60,7 +68,7 @@ public class PlayerScript : ColorObject
 				gatesPassed++;
 				BeatsEngine.Instance.gateDestroyed();
 			}
-			Destroy(collision.gameObject);
+			//Destroy(collision.gameObject);
 		}
 	}
 }

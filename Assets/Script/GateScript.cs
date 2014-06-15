@@ -3,17 +3,17 @@ using System.Collections;
 
 public class GateScript : ColorObject {
 	void Start() {
+		BeatsEngine.Instance.registerTintable(this);
+		updateColor();
 	}
 
 	void Update () {
-		if (renderer.IsVisibleFrom(Camera.main) == false)
-		{
-			Destroy(gameObject);
-		}
+		destroyIfOffscreen();
 		updateColor();
 	}
 	
 	private void updateColor() {
-		gameObject.renderer.material.color = realColor();
+		changeRenderedColor();
+		transform.GetChild(0).renderer.material.SetColor("_SunTint", getColor());
 	}
 }
