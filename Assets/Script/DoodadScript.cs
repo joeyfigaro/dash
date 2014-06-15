@@ -7,6 +7,7 @@ public class DoodadScript : ColorObject {
 	public int rarity = 10;
 
 	public bool foreground = false;
+	public bool sky = false;
 
 	void Start () {
 		registerWithTintSource();
