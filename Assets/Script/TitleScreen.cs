@@ -16,6 +16,6 @@ public class TitleScreen : MonoBehaviour {
 		pos.y = player.transform.position.y;
 
 		transform.position = pos;
-//		if((Input.inputString.Length > 0) || (Input.touchCount > 0)) Application.LoadLevel("Level");
+		if((Input.inputString.Length > 0) || (Input.touchCount > 0)) Application.LoadLevel("Level");
 	}
 }

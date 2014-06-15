@@ -62,7 +62,7 @@ public class PlayerScript : ColorObject
 				if(collision.gameObject.transform.rotation.eulerAngles.z != 0) {
 					BoxCollider2D collider = collision.gameObject.GetComponent<BoxCollider2D>();
 					collider.isTrigger = false;
-				}// else Destroy(gameObject);
+				} else Destroy(gameObject);
 			}
 			else {
 				gatesPassed++;
