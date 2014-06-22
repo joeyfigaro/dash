@@ -18,7 +18,6 @@ public class SunScript : ColorObject {
 	private Vector3 startPos;
 	public Vector3 destPos;
 	public GameObject terrain;
-	private TerrainGeneration terrainGen;
 
 	private State state = State.set;
 
@@ -27,7 +26,6 @@ public class SunScript : ColorObject {
 	}
 
 	void Awake() {
-		terrainGen = terrain.GetComponent<TerrainGeneration>();
 	}
 
 	void Start() {
@@ -72,7 +70,8 @@ public class SunScript : ColorObject {
 	void Update () {
 		switch(state) {
 		case State.set:
-			transform.position = transform.position + new Vector3(0, terrainGen.getTerrainY() - (transform.renderer.bounds.size.y / 2), 0);
+			// TODO: fix this
+			transform.position = transform.position + new Vector3(0, Camera.main.transform.position.y + (transform.renderer.bounds.size.y / 2), 0);
 			break;
 		case State.throbbing:
 			transform.localScale = Vector3.Lerp(transform.localScale, throbGoal, Time.deltaTime * 20);

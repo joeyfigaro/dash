@@ -24,11 +24,15 @@ public class TerrainGeneration : MonoBehaviour {
 	private float fieldZMax;
 	private float fieldStart;
 
-	private GateScript gateScript;
+	private float lastGroundX;
+	private float lastTileX;
+
+	private bool[,] terrainTrack;
+	private int terrainTrackOffset;
+
+	int groundTilesHeight;
 
 	void Start () {
-		gateScript = gate.GetComponent<GateScript>();
-
 		fieldDepth = groundPlaceholder.renderer.bounds.size.z;
 		fieldStart = groundPlaceholder.transform.position.z - (groundPlaceholder.renderer.bounds.size.z / 2);
 		fieldZMax = groundPlaceholder.transform.position.z + (groundPlaceholder.renderer.bounds.size.z / 2);
@@ -40,79 +44,80 @@ public class TerrainGeneration : MonoBehaviour {
 		lastGroundX = leftBorderBackground - ground.renderer.bounds.size.x;
 		lastTileX = leftBorderBackground - tile.renderer.bounds.size.x;
 
-		generateTerrain();
-		StartCoroutine(generateDoodad());
+		groundTilesHeight = Mathf.FloorToInt(fieldDepth / ground.renderer.bounds.size.y - 1);
+		terrainTrack = new bool[5, groundTilesHeight];
+
+		generateTerrainLoop();
 	}
 
-	public float getTerrainY() {
-		return terrainY;
-	}
+	private void generateTerrainLoop() {
+		while(lastGroundX <= rightBorderBackground) {
 
-	private float lastGroundX;
-	private float lastTileX;
-	private void generateTerrain() {
-		Vector3 position;
-		GameObject tileClone;
+			Vector3 position = new Vector3(lastGroundX, terrainY, fieldStart + (ground.renderer.bounds.size.y / 2f));
+			for(int groundTile = 0; groundTile < groundTilesHeight; groundTile++) {
+				generateGround(position);
+				generateDoodad(groundTile, ground.renderer.bounds.size.y * (groundTile + 1));
 
-		while((lastGroundX - rightBorderBackground <= ground.renderer.bounds.size.x) || (
-			lastTileX - rightBorderBackground <= tile.renderer.bounds.size.x)) {
-			if(lastGroundX - rightBorderBackground <= ground.renderer.bounds.size.x) {
-				position = new Vector3(lastGroundX, terrainY, fieldStart + (ground.renderer.bounds.size.y / 2f));
-				GameObject groundClone;
-				for(int groundTile = 0; groundTile <= (fieldDepth / ground.renderer.bounds.size.y - 1); groundTile++) {
-					groundClone = Instantiate(ground, position, Quaternion.Euler(-90, 0, 0)) as GameObject;
-					groundClone.transform.parent = terrain.transform;
-					position.z += ground.renderer.bounds.size.y;
-				}
-				lastGroundX += ground.renderer.bounds.size.x;
+				position.z += ground.renderer.bounds.size.y;
 			}
+			generateTile();
 
-			if(lastTileX - rightBorderBackground <= tile.renderer.bounds.size.x) {
-				position = new Vector3(lastTileX, terrainY, fieldStart);
-				tileClone = Instantiate(tile, position, Quaternion.Euler(0, 0, 0)) as GameObject;
-				tileClone.transform.parent = terrain.transform;
-				lastTileX += tile.renderer.bounds.size.x;
-			}
+			terrainTrackOffset %= terrainTrackOffset + 1;
+			lastGroundX += ground.renderer.bounds.size.x;
 		}
+	}
+
+	private void generateGround(Vector3 position) {
+		GameObject groundClone = Instantiate(ground, position, Quaternion.Euler(-90, 0, 0)) as GameObject;
+		groundClone.transform.parent = terrain.transform;
+	}
+
+	private void generateTile() {
+		Vector3 position = new Vector3(lastTileX, terrainY - (tile.renderer.bounds.size.y / 2f), fieldStart);
+		GameObject tileClone = Instantiate(tile, position, Quaternion.Euler(0, 0, 0)) as GameObject;
+		tileClone.transform.parent = terrain.transform;
+		lastTileX += tile.renderer.bounds.size.x;
 	}
 
 	public void generateGate() {
 		GameObject gateClone = Instantiate(gate, new Vector3(
 			rightBorder + (2 * gate.renderer.bounds.size.x),
-			terrainY + ((gate.renderer.bounds.size.y  + tile.renderer.bounds.size.y) / 2f),
+			terrainY + (gate.renderer.bounds.size.y / 2f),
 			fieldStart
 		), Quaternion.Euler(0, 0, 0)) as GameObject;
 		gateClone.transform.parent = terrain.transform;
 	}
 	
-	IEnumerator generateDoodad() {
-		for( float timer = timeBetweenDoodads; timer >= 0; timer -= Time.deltaTime)
-			yield return 0;
+	private void generateDoodad(int groundTile, float z) {
+		int availableHeight = 1;
+		while((groundTile + availableHeight < groundTilesHeight) && !terrainTrack[terrainTrackOffset, groundTile + availableHeight]) availableHeight++;
 
 		DoodadScript doodadScript = Doodads.Instance.randomDoodadScript();
+		if(doodadScript != null) {
+			float yOffset = 0;
 
-		float z = 0;
-		if(!doodadScript.foreground) z = Doodads.Instance.getRandomOffset(doodadIndex);
+			if(doodadScript.gameObject.GetComponent<SpriteRenderer>().sprite.bounds.center.y != 0) yOffset = 0;
+			if(doodadScript.sky) yOffset += 15;
+			if(doodadScript.foreground) z = 0;
 
-		float yOffset = doodadScript.gameObject.renderer.bounds.size.y / 2f;
-		if(doodadScript.gameObject.GetComponent<SpriteRenderer>().sprite.bounds.center.y != 0) yOffset = 0;
+			GameObject doodadClone = Instantiate(doodadScript.gameObject, new Vector3(
+				lastTileX + doodadScript.gameObject.renderer.bounds.size.x, 
+				terrainY + yOffset,
+				z
+				), doodadScript.gameObject.transform.rotation) as GameObject;
 
-		if(doodadScript.sky) yOffset += 15;
+//			doodadClone.transform.localScale *= 5;
+			doodadClone.transform.parent = background.transform;
+			if(doodadScript.gameObject.GetComponent<SpriteRenderer>().sprite.bounds.center.y == 0) doodadClone.transform.position += new Vector3(0, doodadScript.gameObject.renderer.bounds.size.y / 2f, 0);
 
-		GameObject doodadClone = Instantiate(doodadScript.gameObject, new Vector3(
-			calculateRightBorderAtZ(z) + doodadScript.gameObject.renderer.bounds.size.x, 
-			terrainY + yOffset,
-			z
-			), doodadScript.gameObject.transform.rotation) as GameObject;
-		doodadClone.transform.parent = background.transform;
+			Vector2 size = new Vector2(5, availableHeight);
+			for(int width = 0; width < 5; width++) {
+				for(int height = 0; height < size.y; height++) {
+					terrainTrack[(terrainTrackOffset + width) % 5, groundTile + height] = width < size.y;
+				}
+			}
 
-		StartCoroutine(generateDoodad());
-	}
-
-	private float calculateRightBorderAtZ(float z) {
-		return Camera.main.ViewportToWorldPoint(
-				new Vector3(1, 0, z)
-			).x;
+		}
 	}
 
 	private void calculateBorders() {
@@ -132,6 +137,6 @@ public class TerrainGeneration : MonoBehaviour {
 	}
 
 	void FixedUpdate() {
-		generateTerrain();
+		generateTerrainLoop();
 	}
 }

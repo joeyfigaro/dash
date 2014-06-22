@@ -8,6 +8,7 @@ public class DoodadScript : ColorObject {
 
 	public bool foreground = false;
 	public bool sky = false;
+	public bool force = false;
 
 	void Start () {
 		registerWithTintSource();

@@ -28,19 +28,13 @@ public class Doodads : MonoBehaviour {
 	public DoodadScript randomDoodadScript() {
 		DoodadScript generatedDoodadScript = null;
 		foreach(DoodadScript script in scripts) {
-			if((generatedDoodadScript == null) || (
-				(script.rarity >= generatedDoodadScript.rarity) &&
-				(Random.Range(0, script.rarity) + 1 == script.rarity))) {
+			if(((generatedDoodadScript == null) ||
+				(script.rarity >= generatedDoodadScript.rarity)) &&
+				(Random.Range(0, script.rarity) == 0)) {
 				generatedDoodadScript = script;
 			}
+			if(script.force) generatedDoodadScript = script;
 		}
 		return generatedDoodadScript;
-	}
-
-	public float getRandomOffset(int doodadIndex)
-	{
-		return Random.Range (minDoodadRange, maxDoodadRange);
-//		return doodads[doodadIndex].renderer.bounds.size.y * 
-//			Random.Range (scripts[doodadIndex].possibleUnderhang, scripts[doodadIndex].possibleOverhang);
 	}
 }
