@@ -28,6 +28,7 @@ public class Doodads : MonoBehaviour {
 	public DoodadScript randomDoodadScript() {
 		DoodadScript generatedDoodadScript = null;
 		foreach(DoodadScript script in scripts) {
+//			if(generatedDoodadScript == null) {
 			if(((generatedDoodadScript == null) ||
 				(script.rarity >= generatedDoodadScript.rarity)) &&
 				(Random.Range(0, script.rarity) == 0)) {

@@ -6,6 +6,9 @@
 		_Color ("Tint", Color) = (1,1,1,1)
 		_SunTint ("Sun Tint", Color) = (1,1,1,1)
 		[MaterialToggle] PixelSnap ("Pixel snap", Float) = 0
+		_BumpMap ("Normalmap", 2D) = "bump" {}
+		_Cutoff ("Alpha Cutoff", Range (0,1)) = 0.5
+
 	}
 	SubShader
 	{
@@ -13,13 +16,15 @@
 		{ 
 			"Queue"="Transparent" 
 			"IgnoreProjector"="True" 
-			"RenderType"="Transparent" 
+			"RenderType"="TransparentCutOut" 
 			"PreviewType"="Plane"
 			"CanUseSpriteAtlas"="True"
 		}
-
+		
+		LOD 300
+		
 		Cull Off
-		Lighting Off
+		Lighting On
 		ZWrite Off
 		Fog { Mode Off }
 		Blend One OneMinusSrcAlpha
@@ -76,28 +81,44 @@
 //		}
 		
 		CGPROGRAM
-		#pragma surface surf Lambert alpha
+		#pragma surface surf Lambert alpha vertex:vert addshadow alphatest:_Cutoff 
 			sampler2D _MainTex;
+			sampler2D _BumpMap;
 			fixed4 _SunTint;
-			fixed4 _Tint;
+			fixed4 _Color;
 
 			struct Input {
 				float2 uv_MainTex;
 				float2 uv_BumpMap;
-				float3 viewDir;
+				fixed4 color;
 			};
 
+			void vert (inout appdata_full v, out Input o)
+			{
+				#if defined(PIXELSNAP_ON) && !defined(SHADER_API_FLASH)
+				v.vertex = UnityPixelSnap (v.vertex);
+				#endif
+				v.normal = float3(0,0,-1);
+				v.tangent =  float4(1, 0, 0, 1);
+				
+				UNITY_INITIALIZE_OUTPUT(Input, o);
+				o.color = _Color;
+			}
+
 			void surf (Input IN, inout SurfaceOutput o) {
-				half4 c = tex2D (_MainTex, IN.uv_MainTex);
+				fixed4 c = tex2D (_MainTex, IN.uv_MainTex);
 			   
 				float isColorToReplace = (c.g >= 0.1) && (c.b <= 0.1);
 //				float isColorToReplace = abs(1 - (c.r / c.g / c.b)) <= .8;
 				c.rgb = ((1 - isColorToReplace) * (5 * c.rgb)) + (isColorToReplace * (5 * c.g * _SunTint));
 //				c.a = ((1 - isColorToReplace) * c.a) + (isColorToReplace);
 			   
+				o.Normal = UnpackNormal(tex2D(_BumpMap, IN.uv_BumpMap));
+		
 			    o.Albedo = c.rgb;
 			    o.Alpha = c.a;
 			}
 		ENDCG
 	}
+	Fallback "Transparent/Cutout/Diffuse"
 }
