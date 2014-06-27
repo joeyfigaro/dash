@@ -7,10 +7,10 @@ public class PlayerScript : ColorObject
 	public int gatesPassed = 0;
 	public float baseSpeed = 0;
 
-	private ParticleSystem trail;
+	private TrailRenderer trail;
 
 	void Start() {
-		trail = GetComponent<ParticleSystem>();
+		trail = GetComponent<TrailRenderer>();
 	}
 
 	void Update()
@@ -42,7 +42,7 @@ public class PlayerScript : ColorObject
 	}
 
 	private void updateColor() {
-		trail.startColor = getColor();
+		trail.Colors[Color[0]] = getColor();
 	}
 
 	private void calculateSpeed() {
