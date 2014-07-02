@@ -5,7 +5,8 @@ public class LandScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+		gameObject.renderer.castShadows = true;
+		gameObject.renderer.receiveShadows = true;
 	}
 	
 	// Update is called once per frame

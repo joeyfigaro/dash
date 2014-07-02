@@ -23,6 +23,8 @@ public class TerrainGeneration : MonoBehaviour {
 	private float lastGroundX;
 	private float lastTileX;
 
+	private int terrainTrackXMax = 10;
+	private int terrainTrackYMax = 40;
 	private bool[,] terrainTrack;
 	private int terrainTrackOffset;
 
@@ -41,7 +43,8 @@ public class TerrainGeneration : MonoBehaviour {
 		lastTileX = leftBorderBackground - tile.renderer.bounds.size.x;
 
 		groundTilesHeight = Mathf.FloorToInt(fieldDepth / ground.renderer.bounds.size.y - 1);
-		terrainTrack = new bool[5, groundTilesHeight];
+		terrainTrackYMax += groundTilesHeight;
+		terrainTrack = new bool[terrainTrackXMax, terrainTrackYMax];
 
 		generateTerrainLoop();
 	}
@@ -50,15 +53,15 @@ public class TerrainGeneration : MonoBehaviour {
 		while(lastGroundX <= (rightBorderBackground - ground.renderer.bounds.size.x)) {
 
 			Vector3 position = new Vector3(lastGroundX, terrainY, fieldStart + (ground.renderer.bounds.size.y / 2f));
-			for(int groundTile = 0; groundTile < groundTilesHeight; groundTile++) {
-				generateGround(position);
-				if(!terrainTrack[terrainTrackOffset, groundTile]) generateDoodad(groundTile, ground.renderer.bounds.size.y * groundTile);
+			for(int groundTile = 0; groundTile < groundTilesHeight + 40; groundTile++) {
+				if(groundTile < groundTilesHeight) generateGround(position);
+				if(!terrainTrack[terrainTrackOffset, groundTile]) generateDoodad(groundTile, ground.renderer.bounds.size.y * (groundTile + 1));
 
 				position.z += ground.renderer.bounds.size.y;
 			}
 			generateTile();
 
-			terrainTrackOffset = (terrainTrackOffset + 1) % 5;
+			terrainTrackOffset = (terrainTrackOffset + 1) % terrainTrackXMax;
 			lastGroundX += ground.renderer.bounds.size.x;
 		}
 	}
@@ -93,7 +96,7 @@ public class TerrainGeneration : MonoBehaviour {
 		if(doodadScript != null) {
 			float yOffset = 0;
 
-			if(doodadScript.sky) yOffset += Random.Range(15, 45);
+			if(doodadScript.sky) yOffset += Random.Range(25, 120);
 			if(doodadScript.foreground) z = 0;
 
 			GameObject doodadClone = Instantiate(doodadScript.gameObject, new Vector3(
@@ -109,10 +112,12 @@ public class TerrainGeneration : MonoBehaviour {
 			doodadClone.transform.position += new Vector3((scale * ground.renderer.bounds.size.x) / 2, 0, 0);
 			doodadClone.transform.parent = background.transform;
 
+			if(groundTile > groundTilesHeight) doodadClone.renderer.sortingOrder = -3;
+
 			Vector2 size = new Vector2(Mathf.Ceil(scale), 1);
-			for(int width = 0; width < 5; width++) {
+			for(int width = 0; width < terrainTrackXMax; width++) {
 				for(int height = 0; height < size.y; height++) {
-					terrainTrack[(terrainTrackOffset + width) % 5, groundTile + height] = width < size.x;
+					terrainTrack[(terrainTrackOffset + width) % terrainTrackXMax, groundTile + height] = width < size.x;
 				}
 			}
 		}
