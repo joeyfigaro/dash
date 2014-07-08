@@ -10,6 +10,7 @@ public class DoodadScript : ColorObject {
 
 	public bool foreground = false;
 	public bool sky = false;
+	public bool ground = false;
 	public bool force = false;
 
 	void Start () {
