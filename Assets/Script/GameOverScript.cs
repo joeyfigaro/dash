@@ -5,28 +5,32 @@
 /// </summary>
 public class GameOverScript : MonoBehaviour
 {
+	public Texture2D btnRetryTexture;
 	void OnGUI()
 	{
-		const int buttonWidth = 120;
-		const int buttonHeight = 60;
-		
+		const int buttonWidth = 1200;
+		const int buttonHeight = 600;
+
+	
+
 		if (
 			GUI.Button(
 			// Center in X, 1/3 of the height in Y
 			new Rect(
-			Screen.width / 2 - (buttonWidth / 2),
-			(1 * Screen.height / 3) - (buttonHeight / 2),
-			buttonWidth,
-			buttonHeight
+				Screen.width / 2 - (buttonWidth / 2),
+				(1 * Screen.height / 3) - (buttonHeight / 2),
+				buttonWidth,
+				buttonHeight
 			),
-			"Retry!"
+			btnRetryTexture
 			)
 			)
+		
 		{
 			// Reload the level
-			Application.LoadLevel("Level");
+			Application.LoadLevel("level");
 		}
-		
+
 		if (
 			GUI.Button(
 			// Center in X, 2/3 of the height in Y
