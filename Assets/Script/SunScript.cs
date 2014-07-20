@@ -79,14 +79,10 @@ public class SunScript : ColorObject {
 
 			break;
 		case State.rising:
-			// Due to loading lag, this causes a large initial jump
-//			transform.localPosition = Vector3.Lerp(transform.localPosition, destPos, Time.deltaTime);
-//			if(destPos.y - transform.position.y < .001) state = State.throbbing;
+			setColor(Color.Lerp(gameObject.renderer.material.GetColor("_SunTint"), ColorDefinitions.colors[nextColor], Time.deltaTime));
 
 			transform.localPosition = Vector3.MoveTowards(transform.localPosition, destPos, Time.deltaTime * 50);
 			if(transform.localPosition.Equals(destPos)) state = State.throbbing;
-
-			setColor(Color.Lerp(gameObject.renderer.material.color, ColorDefinitions.colors[nextColor], Time.deltaTime));
 
 			break;
 		}

@@ -31,7 +31,7 @@ public class Doodads : MonoBehaviour {
 //			if(generatedDoodadScript == null) {
 			if(((generatedDoodadScript == null) ||
 				(script.rarity >= generatedDoodadScript.rarity)) &&
-				(Random.Range(0, script.rarity) == 0)) {
+				(Random.Range(0, script.rarity * 4) == 0)) {
 				generatedDoodadScript = script;
 			}
 			if(script.force) generatedDoodadScript = script;

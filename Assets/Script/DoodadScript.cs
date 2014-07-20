@@ -15,8 +15,6 @@ public class DoodadScript : ColorObject {
 
 	void Start () {
 		registerWithTintSource();
-		gameObject.renderer.castShadows = true;
-		gameObject.renderer.receiveShadows = true;
 	}
 
 	void Update() {

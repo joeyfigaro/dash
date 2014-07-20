@@ -53,7 +53,7 @@ public class TerrainGeneration : MonoBehaviour {
 		while(lastGroundX <= (rightBorderBackground - ground.renderer.bounds.size.x)) {
 
 			Vector3 position = new Vector3(lastGroundX, terrainY, fieldStart + (ground.renderer.bounds.size.y / 2f));
-			for(int groundTile = 0; groundTile < groundTilesHeight + 40; groundTile++) {
+			for(int groundTile = 0; groundTile < groundTilesHeight; groundTile++) {
 				if(groundTile < groundTilesHeight) generateGround(position);
 				if(!terrainTrack[terrainTrackOffset, groundTile]) generateDoodad(groundTile, ground.renderer.bounds.size.y * (groundTile + 1));
 
