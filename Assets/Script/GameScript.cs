@@ -52,25 +52,26 @@ public class GameScript : MonoBehaviour {
 
 	public Texture2D btnRetryTexture;
 	public Texture2D btnMenuTexture;
+	public GUIStyle dashGUIStyle;
 	void OnGUI()
 	{
 				if (gameOver) {
 				
-						const int buttonWidth = 120;
-						const int buttonHeight = 60;
+						const int buttonWidth = 256;
+						const int buttonHeight = 128;
 		
 		
 		
 						if (
 			GUI.Button (
-			// Center in X, 1/3 of the height in Y
 			new Rect (
-			Screen.width / 2 - (buttonWidth / 2),
-			(1 * Screen.height / 3) - (buttonHeight / 2),
+				Screen.width - (Screen.width / 16) - (buttonWidth),
+				(3 * Screen.height / 5) - (buttonHeight / 2),
 			buttonWidth,
 			buttonHeight
 						),
-			btnRetryTexture
+			btnRetryTexture,
+			dashGUIStyle
 						)
 			) {
 								// Reload the level
@@ -79,14 +80,15 @@ public class GameScript : MonoBehaviour {
 		
 						if (
 			GUI.Button (
-			// Center in X, 2/3 of the height in Y
 			new Rect (
-			Screen.width / 2 - (buttonWidth / 2),
-			(2 * Screen.height / 3) - (buttonHeight / 2),
+				Screen.width - (Screen.width / 16) - (buttonWidth),
+				(4 * Screen.height / 5) - (buttonHeight / 2),
 			buttonWidth,
 			buttonHeight
 						),
-			btnMenuTexture						)
+			btnMenuTexture,
+			dashGUIStyle
+						)
 			) {
 								// Reload the level
 								Application.LoadLevel ("intro-3-full");

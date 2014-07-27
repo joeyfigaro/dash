@@ -3,6 +3,8 @@ using System.Collections;
 
 public class TitleScreen : MonoBehaviour {
 	public GameObject player;
+	public Texture2D dashLogoTexture;
+
 
 
 	// Use this for initialization
@@ -17,5 +19,9 @@ public class TitleScreen : MonoBehaviour {
 
 		transform.position = pos;
 		if((Input.inputString.Length > 0) || (Input.touchCount > 0)) Application.LoadLevel("Level");
+	}
+
+	void OnGUI () {
+		GUI.Label (new Rect (Screen.width / 2 - 256, Screen.height / 2 - 256, 512, 256), dashLogoTexture);
 	}
 }
