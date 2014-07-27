@@ -6,6 +6,7 @@
 public class GameOverScript : MonoBehaviour
 {
 	public Texture2D btnRetryTexture;
+	public Texture2D btnMenuTexture;
 	void OnGUI()
 	{
 		const int buttonWidth = 1200;

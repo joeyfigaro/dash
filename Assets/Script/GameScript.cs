@@ -51,6 +51,7 @@ public class GameScript : MonoBehaviour {
 	}
 
 	public Texture2D btnRetryTexture;
+	public Texture2D btnMenuTexture;
 	void OnGUI()
 	{
 				if (gameOver) {
@@ -85,8 +86,7 @@ public class GameScript : MonoBehaviour {
 			buttonWidth,
 			buttonHeight
 						),
-			"Back to menu"
-						)
+			btnMenuTexture						)
 			) {
 								// Reload the level
 								Application.LoadLevel ("intro-3-full");
