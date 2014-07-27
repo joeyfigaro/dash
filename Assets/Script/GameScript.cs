@@ -4,6 +4,8 @@ using System.Collections;
 public class GameScript : MonoBehaviour {
 	public static GameScript Instance;
 
+	public bool gameOver = false;
+
 	public GameObject cameraBox;
 
 	public float playerBaseSpeed = 30f;
@@ -47,4 +49,50 @@ public class GameScript : MonoBehaviour {
 		}
 		Instance = this;
 	}
+
+	public Texture2D btnRetryTexture;
+	public Texture2D btnMenuTexture;
+	public GUIStyle dashGUIStyle;
+	void OnGUI()
+	{
+				if (gameOver) {
+				
+						const int buttonWidth = 256;
+						const int buttonHeight = 128;
+		
+		
+		
+						if (
+			GUI.Button (
+			new Rect (
+				Screen.width - (Screen.width / 16) - (buttonWidth),
+				(3 * Screen.height / 5) - (buttonHeight / 2),
+			buttonWidth,
+			buttonHeight
+						),
+			btnRetryTexture,
+			dashGUIStyle
+						)
+			) {
+								// Reload the level
+								Application.LoadLevel ("level");
+						}
+		
+						if (
+			GUI.Button (
+			new Rect (
+				Screen.width - (Screen.width / 16) - (buttonWidth),
+				(4 * Screen.height / 5) - (buttonHeight / 2),
+			buttonWidth,
+			buttonHeight
+						),
+			btnMenuTexture,
+			dashGUIStyle
+						)
+			) {
+								// Reload the level
+								Application.LoadLevel ("intro-3-full");
+						}
+				}
+		}
 }
