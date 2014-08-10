@@ -396,7 +396,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 296697865}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3278f7e526f0c4d8598a8bcadda7ce31, type: 3}
+  m_Script: {fileID: 11500000, guid: a62b6345bf0f34e1e8e8f642a7a7ea9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   possibleUnderhang: 0
@@ -410,7 +410,24 @@ MonoBehaviour:
   force: 0
   inGround: 0
   avoidRegistration: 1
-  doodads: []
+  doodads:
+  - {fileID: 100000, guid: abbf269814d254e82a39001b9a59c81c, type: 2}
+  - {fileID: 100000, guid: 3efdbb7f777c842b78548234e9a8be45, type: 2}
+  - {fileID: 100000, guid: e3e35a70c22144910a098c4cf44c8b9e, type: 2}
+  - {fileID: 100000, guid: c4de3803b1676418a815c6823c5f14f5, type: 2}
+  - {fileID: 100000, guid: d98c53ae56ae94f6884542d351401b40, type: 2}
+  - {fileID: 100000, guid: f4942f98526eb43a9bc67e10d6fc4d24, type: 2}
+  - {fileID: 100000, guid: 5f927b3179af647d8a011e3213b4eb4c, type: 2}
+  - {fileID: 100000, guid: 7f4012e6392a3420aa0a0a1aeccf11a5, type: 2}
+  - {fileID: 100000, guid: 0d2420d009f6a4d5196741aab1c35748, type: 2}
+  - {fileID: 100000, guid: e24a31ad0b354405f8dafcc206cd427f, type: 2}
+  - {fileID: 100000, guid: 429a6d4f1c52642a3a2811b49bdca228, type: 2}
+  - {fileID: 100000, guid: 5dd9f6a61c44c4982acd3480df848681, type: 2}
+  - {fileID: 100000, guid: 2fd2361e0075e47bd878c0dd88be3fd3, type: 2}
+  - {fileID: 100000, guid: a9cc1618f063b461f846cc03b491e78e, type: 2}
+  - {fileID: 100000, guid: 46dcea9cc8a6e49ed919afdeb2b10cc9, type: 2}
+  - {fileID: 100000, guid: d835308dbc80b41e1acd5892c6b1f8c6, type: 2}
+  - {fileID: 100000, guid: 61115fcc70313451684a0e3defded5bd, type: 2}
 --- !u!1 &613739337
 GameObject:
   m_ObjectHideFlags: 0
@@ -831,9 +848,9 @@ MonoBehaviour:
   gameOver: 0
   cameraBox: {fileID: 73633455}
   playerBaseSpeed: 10
-  btnRetryTexture: {fileID: 2800000, guid: fbb9841b332e94e17b64374f0f118cc7, type: 3}
-  btnMenuTexture: {fileID: 2800000, guid: d704cbb9a485a4d04a885faf20030eed, type: 3}
-  imgRainCloudTexture: {fileID: 2800000, guid: d9a8858a87cd84789858b439524d96c6, type: 3}
+  btnRetryTexture: {fileID: 2800000, guid: 5a26a8d275d584a6da70694e3fa512c7, type: 3}
+  btnMenuTexture: {fileID: 2800000, guid: b28d3581c21b64b05a71779cae476918, type: 3}
+  imgRainCloudTexture: {fileID: 2800000, guid: a2534929785ce44c7a4ccde5b2264f8e, type: 3}
   dashGUIStyle:
     m_Name: 
     m_Normal:
@@ -893,7 +910,7 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
-  lightningBolt: {fileID: 100000, guid: f5e1010194e4f4d06a0e231dcaa65e03, type: 2}
+  lightningBolt: {fileID: 100000, guid: 3d6d60501bf084a3ca51cf7774cb2d94, type: 2}
 --- !u!114 &1468073472
 MonoBehaviour:
   m_ObjectHideFlags: 0
