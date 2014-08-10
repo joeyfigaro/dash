@@ -8,7 +8,7 @@ MonoImporter:
   - btnMenuTexture: {fileID: 2800000, guid: d704cbb9a485a4d04a885faf20030eed, type: 3}
   - imgRainCloudTexture: {fileID: 2800000, guid: d8894af236e3a4d1a89f23310f810abd,
       type: 3}
-  - lightningBolt: {instanceID: 0}
+  - lightningBolt: {fileID: 100000, guid: f5e1010194e4f4d06a0e231dcaa65e03, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

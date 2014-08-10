@@ -57,6 +57,7 @@ public class GameScript : MonoBehaviour {
 	private BeatsEngine beatsEngine;
 	public GameObject lightningBolt;
 
+
 	void OnGUI()
 	{
 		if (gameOver) {
@@ -117,8 +118,8 @@ public class GameScript : MonoBehaviour {
 					imgRainCloudTexture,
 					dashGUIStyle);
 
-
-			 
+			lightningBolt.transform.Translate(-10,30,0);
+						 
 		}
 	}
 }
