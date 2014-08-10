@@ -52,47 +52,78 @@ public class GameScript : MonoBehaviour {
 
 	public Texture2D btnRetryTexture;
 	public Texture2D btnMenuTexture;
+	public Texture2D imgRainCloudTexture;
+	public Texture2D imgLightningTexture;
 	public GUIStyle dashGUIStyle;
+	private BeatsEngine beatsEngine;
 	void OnGUI()
 	{
-				if (gameOver) {
-				
-						const int buttonWidth = 256;
-						const int buttonHeight = 128;
+		if (gameOver) {
+			beatsEngine = GetComponent<BeatsEngine> ();
+			const int buttonWidth = 256;
+			const int buttonHeight = 128;
+			int rainCloudWidth = (Screen.width / 2);
+			int rainCloudHeight = (Screen.height / 2);
+
+
+
 		
+			if (
+				GUI.Button (
+					new Rect (
+						Screen.width - (Screen.width / 16) - (buttonWidth),
+						(3 * Screen.height / 5) - (buttonHeight / 2),
+						buttonWidth,
+						buttonHeight
+					),
+					btnRetryTexture,
+					dashGUIStyle
+				)) {
+				// Reload the level
+				Application.LoadLevel ("level");
+			}
 		
-		
-						if (
-			GUI.Button (
-			new Rect (
-				Screen.width - (Screen.width / 16) - (buttonWidth),
-				(3 * Screen.height / 5) - (buttonHeight / 2),
-			buttonWidth,
-			buttonHeight
-						),
-			btnRetryTexture,
-			dashGUIStyle
-						)
-			) {
-								// Reload the level
-								Application.LoadLevel ("level");
-						}
-		
-						if (
-			GUI.Button (
-			new Rect (
-				Screen.width - (Screen.width / 16) - (buttonWidth),
-				(4 * Screen.height / 5) - (buttonHeight / 2),
-			buttonWidth,
-			buttonHeight
-						),
-			btnMenuTexture,
-			dashGUIStyle
-						)
-			) {
-								// Reload the level
-								Application.LoadLevel ("intro-3-full");
-						}
-				}
+			if (
+				GUI.Button (
+					new Rect (
+						Screen.width - (Screen.width / 16) - (buttonWidth),
+						(4 * Screen.height / 5) - (buttonHeight / 2),
+						buttonWidth,
+						buttonHeight
+					),
+					btnMenuTexture,
+					dashGUIStyle
+				)) {
+				// Reload the level
+				Application.LoadLevel ("intro-3-full");
+			}
+
+			// Displays the final score
+			GUI.Label (
+			new Rect (Screen.width - (Screen.width / 16) - (buttonWidth),(2 * Screen.height / 5) - (buttonHeight / 2),
+			          buttonWidth,
+			          buttonHeight
+			          ),
+					"Final Score: " + beatsEngine.bpm, 
+					dashGUIStyle);
+
+			// Decorative "Game Over" Raincloud
+			GUI.Label (
+				new Rect ((Screen.width / 2) - (rainCloudWidth / 2), 0,
+			          rainCloudWidth,
+			          rainCloudHeight
+			          ),
+					imgRainCloudTexture,
+					dashGUIStyle);
+
+			GUI.Label (
+				new Rect ((Screen.width / 2) - (rainCloudWidth / 2), 0,
+			          rainCloudWidth,
+			          rainCloudHeight
+			          ),
+				imgLightningTexture,
+				dashGUIStyle);
+			 
 		}
+	}
 }
