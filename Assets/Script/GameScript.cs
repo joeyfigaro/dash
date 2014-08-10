@@ -53,9 +53,10 @@ public class GameScript : MonoBehaviour {
 	public Texture2D btnRetryTexture;
 	public Texture2D btnMenuTexture;
 	public Texture2D imgRainCloudTexture;
-	public Texture2D imgLightningTexture;
 	public GUIStyle dashGUIStyle;
 	private BeatsEngine beatsEngine;
+	public GameObject lightningBolt;
+
 	void OnGUI()
 	{
 		if (gameOver) {
@@ -109,20 +110,14 @@ public class GameScript : MonoBehaviour {
 
 			// Decorative "Game Over" Raincloud
 			GUI.Label (
-				new Rect ((Screen.width / 2) - (rainCloudWidth / 2), 0,
+				new Rect ((Screen.width / 2) - (rainCloudWidth / 2), 10,
 			          rainCloudWidth,
 			          rainCloudHeight
 			          ),
 					imgRainCloudTexture,
 					dashGUIStyle);
 
-			GUI.Label (
-				new Rect ((Screen.width / 2) - (rainCloudWidth / 2), 0,
-			          rainCloudWidth,
-			          rainCloudHeight
-			          ),
-				imgLightningTexture,
-				dashGUIStyle);
+
 			 
 		}
 	}
