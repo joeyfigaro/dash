@@ -3,9 +3,7 @@ using System.Collections.Generic;
 
 public class Doodads : MonoBehaviour {
 	public static Doodads Instance;
-	
-	public float minDoodadRange = 10f;
-	public float maxDoodadRange = 40f;
+
 	public GameObject[] doodads;
 	private DoodadScript[] scripts;
 
@@ -28,7 +26,6 @@ public class Doodads : MonoBehaviour {
 	public DoodadScript randomDoodadScript() {
 		DoodadScript generatedDoodadScript = null;
 		foreach(DoodadScript script in scripts) {
-//			if(generatedDoodadScript == null) {
 			if(((generatedDoodadScript == null) ||
 				(script.rarity >= generatedDoodadScript.rarity)) &&
 				(Random.Range(0, script.rarity * 4) == 0)) {

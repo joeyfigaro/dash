@@ -22,4 +22,10 @@ public class DoodadScript : ColorObject {
 		changeRenderedColor();
 		destroyIfOffscreen();
 	}
+
+	public GameObject instantiateAt(Vector3 pos, Quaternion rot) {
+		if(sky) pos += new Vector3(gameObject.renderer.bounds.size.x, Random.Range(25, 120), 0);
+
+		return Instantiate(gameObject, pos, rot) as GameObject;
+	}
 }

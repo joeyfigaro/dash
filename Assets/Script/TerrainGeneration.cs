@@ -95,23 +95,25 @@ public class TerrainGeneration : MonoBehaviour {
 			while((groundTile + availableHeight < groundTilesHeight) && !terrainTrack[terrainTrackOffset, groundTile + availableHeight])
 				availableHeight++;
 
-			float yOffset = 0;
-
 			if(doodadScript.inGround && groundTile != 0) return;
 
-			if(doodadScript.sky) yOffset += Random.Range(25, 120);
+			// These break the rules.
+			// TODO: terrain generation should start z at 0 and "return"
+			// if an inground doodad was chosen and z != fieldstart.
+			// Append to above statement.
 			if(doodadScript.inGround) z = fieldStart;
+			// TODO: terrain generation should start z at 0 and "return"
+			// if a foreground doodad was chosen and z != 0.
 			if(doodadScript.foreground) z = 0;
 
-			GameObject doodadClone = Instantiate(doodadScript.gameObject, new Vector3(
-				lastTileX + doodadScript.gameObject.renderer.bounds.size.x, 
-				terrainY + yOffset,
+			GameObject doodadClone = doodadScript.instantiateAt(new Vector3(
+				lastTileX,
+				terrainY,
 				z
-				), doodadScript.gameObject.transform.rotation) as GameObject;
+				), doodadScript.gameObject.transform.rotation);
 
 			float ratio = doodadClone.renderer.bounds.size.x / ground.renderer.bounds.size.x;
 			float scale = Random.Range(doodadScript.minScale, doodadScript.maxScale);
-
 
 			doodadClone.transform.localScale /= ratio / scale;
 
