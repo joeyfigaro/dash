@@ -56,8 +56,8 @@ public class TerrainGeneration : MonoBehaviour {
 			for(int groundTile = 0; groundTile < groundTilesHeight; groundTile++) {
 				if(groundTile < groundTilesHeight) generateGround(position);
 				if(!terrainTrack[terrainTrackOffset, groundTile]) {
-					DoodadScript doodadScript = Doodads.Instance.randomDoodadScript();
-					generateDoodad(doodadScript, groundTile, ground.renderer.bounds.size.y * (groundTile + 1));
+					Doodad doodad = Doodads.Instance.getRandomDoodad();
+					generateDoodad(doodad, groundTile, ground.renderer.bounds.size.y * (groundTile + 1));
 				}
 				position.z += ground.renderer.bounds.size.y;
 			}
@@ -89,36 +89,36 @@ public class TerrainGeneration : MonoBehaviour {
 		gateClone.transform.parent = terrain.transform;
 	}
 	
-	private void generateDoodad(DoodadScript doodadScript, int groundTile, float z) {
-		if(doodadScript != null) {
+	private void generateDoodad(Doodad doodad, int groundTile, float z) {
+		if(doodad != null) {
 			int availableHeight = 1;
 			while((groundTile + availableHeight < groundTilesHeight) && !terrainTrack[terrainTrackOffset, groundTile + availableHeight])
 				availableHeight++;
 
-			if(doodadScript.inGround && groundTile != 0) return;
+			if(doodad.inGround && groundTile != 0) return;
 
 			// These break the rules.
 			// TODO: terrain generation should start z at 0 and "return"
 			// if an inground doodad was chosen and z != fieldstart.
 			// Append to above statement.
-			if(doodadScript.inGround) z = fieldStart;
+			if(doodad.inGround) z = fieldStart;
 			// TODO: terrain generation should start z at 0 and "return"
 			// if a foreground doodad was chosen and z != 0.
-			if(doodadScript.foreground) z = 0;
+			if(doodad.foreground) z = 0;
 
-			GameObject doodadClone = doodadScript.instantiateAt(new Vector3(
+			GameObject doodadClone = doodad.instantiateAt(new Vector3(
 				lastTileX,
 				terrainY,
 				z
-				), doodadScript.gameObject.transform.rotation);
+				), doodad.gameObject.transform.rotation);
 
 			float ratio = doodadClone.renderer.bounds.size.x / ground.renderer.bounds.size.x;
-			float scale = Random.Range(doodadScript.minScale, doodadScript.maxScale);
+			float scale = Random.Range(doodad.minScale, doodad.maxScale);
 
 			doodadClone.transform.localScale /= ratio / scale;
 
 			float postScaleYOffset = 0;
-			if(doodadScript.inGround) {
+			if(doodad.inGround) {
 				postScaleYOffset = -1 * ((scale * ground.renderer.bounds.size.y) / 2);
 			}
 

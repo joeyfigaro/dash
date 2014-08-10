@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class DoodadScript : ColorObject {
+public class Doodad : ColorObject {
 	public float possibleUnderhang;
 	public float possibleOverhang;
 	public int rarity = 10;
