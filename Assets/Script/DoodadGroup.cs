@@ -1,24 +1,15 @@
 ﻿using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 
-public class Doodads : MonoBehaviour {
-	public static Doodads Instance;
-
+public class DoodadGroup : DoodadScript {
+	
 	public GameObject[] doodads;
 	private DoodadScript[] scripts;
 
-	void Awake()
-	{
-		// Register the singleton
-		if (Instance != null)
-		{
-			Debug.LogError("Multiple instances of Doodads!");
-		}
-		Instance = this;
-
+	void Awake () {
 		List<DoodadScript> list = new List<DoodadScript>();
 		foreach(GameObject doodad in doodads) {
-			Debug.LogError("ping");
 			list.Add(doodad.GetComponent<DoodadScript>());
 		}
 		scripts = list.ToArray();
@@ -28,8 +19,8 @@ public class Doodads : MonoBehaviour {
 		DoodadScript generatedDoodadScript = null;
 		foreach(DoodadScript script in scripts) {
 			if(((generatedDoodadScript == null) ||
-				(script.rarity >= generatedDoodadScript.rarity)) &&
-				(Random.Range(0, script.rarity * 4) == 0)) {
+			    (script.rarity >= generatedDoodadScript.rarity)) &&
+			   (Random.Range(0, script.rarity * 4) == 0)) {
 				generatedDoodadScript = script;
 			}
 			if(script.force) generatedDoodadScript = script;
