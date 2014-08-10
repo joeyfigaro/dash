@@ -55,8 +55,10 @@ public class TerrainGeneration : MonoBehaviour {
 			Vector3 position = new Vector3(lastGroundX, terrainY, fieldStart + (ground.renderer.bounds.size.y / 2f));
 			for(int groundTile = 0; groundTile < groundTilesHeight; groundTile++) {
 				if(groundTile < groundTilesHeight) generateGround(position);
-				if(!terrainTrack[terrainTrackOffset, groundTile]) generateDoodad(groundTile, ground.renderer.bounds.size.y * (groundTile + 1));
-
+				if(!terrainTrack[terrainTrackOffset, groundTile]) {
+					DoodadScript doodadScript = Doodads.Instance.randomDoodadScript();
+					generateDoodad(doodadScript, groundTile, ground.renderer.bounds.size.y * (groundTile + 1));
+				}
 				position.z += ground.renderer.bounds.size.y;
 			}
 			generateTile();
@@ -87,16 +89,18 @@ public class TerrainGeneration : MonoBehaviour {
 		gateClone.transform.parent = terrain.transform;
 	}
 	
-	private void generateDoodad(int groundTile, float z) {
-		int availableHeight = 1;
-		while((groundTile + availableHeight < groundTilesHeight) && !terrainTrack[terrainTrackOffset, groundTile + availableHeight])
-			availableHeight++;
-
-		DoodadScript doodadScript = Doodads.Instance.randomDoodadScript();
+	private void generateDoodad(DoodadScript doodadScript, int groundTile, float z) {
 		if(doodadScript != null) {
+			int availableHeight = 1;
+			while((groundTile + availableHeight < groundTilesHeight) && !terrainTrack[terrainTrackOffset, groundTile + availableHeight])
+				availableHeight++;
+
 			float yOffset = 0;
 
+			if(doodadScript.inGround && groundTile != 0) return;
+
 			if(doodadScript.sky) yOffset += Random.Range(25, 120);
+			if(doodadScript.inGround) z = fieldStart;
 			if(doodadScript.foreground) z = 0;
 
 			GameObject doodadClone = Instantiate(doodadScript.gameObject, new Vector3(
@@ -108,8 +112,15 @@ public class TerrainGeneration : MonoBehaviour {
 			float ratio = doodadClone.renderer.bounds.size.x / ground.renderer.bounds.size.x;
 			float scale = Random.Range(doodadScript.minScale, doodadScript.maxScale);
 
+
 			doodadClone.transform.localScale /= ratio / scale;
-			doodadClone.transform.position += new Vector3((scale * ground.renderer.bounds.size.x) / 2, 0, 0);
+
+			float postScaleYOffset = 0;
+			if(doodadScript.inGround) {
+				postScaleYOffset = -1 * ((scale * ground.renderer.bounds.size.y) / 2);
+			}
+
+			doodadClone.transform.position += new Vector3((scale * ground.renderer.bounds.size.x) / 2, postScaleYOffset, 0);
 			doodadClone.transform.parent = background.transform;
 
 			if(groundTile > groundTilesHeight) doodadClone.renderer.sortingOrder = -3;

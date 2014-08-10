@@ -12,6 +12,7 @@ public class DoodadScript : ColorObject {
 	public bool sky = false;
 	public bool ground = false;
 	public bool force = false;
+	public bool inGround = false;
 
 	void Start () {
 		registerWithTintSource();

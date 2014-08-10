@@ -57,7 +57,8 @@ public class SunScript : ColorObject {
 
 	private void updateTintables() {
 		foreach (ColorObject tintMe in tintables) {
-			tintMe.setColor(getColor());
+			// TODO: change back to getColor() and add color match range to player
+			tintMe.setColor(ColorDefinitions.colors[nextColor]);
 		}
 	}
 
