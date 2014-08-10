@@ -18,7 +18,7 @@ public class Doodads : MonoBehaviour {
 
 		List<DoodadScript> list = new List<DoodadScript>();
 		foreach(GameObject doodad in doodads) {
-			Debug.LogError("ping");
+		//	Debug.LogError("ping");
 			list.Add(doodad.GetComponent<DoodadScript>());
 		}
 		scripts = list.ToArray();
