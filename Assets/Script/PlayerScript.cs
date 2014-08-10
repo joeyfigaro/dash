@@ -52,6 +52,7 @@ public class PlayerScript : ColorObject
 	void OnDestroy() {
 		//transform.parent.gameObject.AddComponent<GameOverScript>();
 		GameScript.Instance.gameOver = true;
+		GameScript.Instance.gameOverAnimation ();
 	}
 
 	void OnTriggerEnter2D(Collider2D collision)

@@ -60,66 +60,73 @@ public class GameScript : MonoBehaviour {
 
 	void OnGUI()
 	{
-		if (gameOver) {
-			beatsEngine = GetComponent<BeatsEngine> ();
-			const int buttonWidth = 256;
-			const int buttonHeight = 128;
-			int rainCloudWidth = (Screen.width / 2);
-			int rainCloudHeight = (Screen.height / 2);
+				if (gameOver) {
+						beatsEngine = GetComponent<BeatsEngine> ();
+						const int buttonWidth = 256;
+						const int buttonHeight = 128;
+						int rainCloudWidth = (Screen.width / 2);
+						int rainCloudHeight = (Screen.height / 2);
 
 
 
 		
-			if (
+						if (
 				GUI.Button (
 					new Rect (
 						Screen.width - (Screen.width / 16) - (buttonWidth),
 						(3 * Screen.height / 5) - (buttonHeight / 2),
 						buttonWidth,
 						buttonHeight
-					),
+						),
 					btnRetryTexture,
 					dashGUIStyle
-				)) {
-				// Reload the level
-				Application.LoadLevel ("level");
-			}
+						)) {
+								// Reload the level
+								Application.LoadLevel ("level");
+						}
 		
-			if (
+						if (
 				GUI.Button (
 					new Rect (
 						Screen.width - (Screen.width / 16) - (buttonWidth),
 						(4 * Screen.height / 5) - (buttonHeight / 2),
 						buttonWidth,
 						buttonHeight
-					),
+						),
 					btnMenuTexture,
 					dashGUIStyle
-				)) {
-				// Reload the level
-				Application.LoadLevel ("intro-3-full");
-			}
+						)) {
+								// Reload the level
+								Application.LoadLevel ("intro-3-full");
+						}
 
-			// Displays the final score
-			GUI.Label (
-			new Rect (Screen.width - (Screen.width / 16) - (buttonWidth),(2 * Screen.height / 5) - (buttonHeight / 2),
+						// Displays the final score
+						GUI.Label (
+			new Rect (Screen.width - (Screen.width / 16) - (buttonWidth), (2 * Screen.height / 5) - (buttonHeight / 2),
 			          buttonWidth,
 			          buttonHeight
-			          ),
+						),
 					"Final Score: " + beatsEngine.bpm, 
 					dashGUIStyle);
 
-			// Decorative "Game Over" Raincloud
-			GUI.Label (
+						// Decorative "Game Over" Raincloud
+						GUI.Label (
 				new Rect ((Screen.width / 2) - (rainCloudWidth / 2), 10,
 			          rainCloudWidth,
 			          rainCloudHeight
-			          ),
+						),
 					imgRainCloudTexture,
 					dashGUIStyle);
-
-			lightningBolt.transform.Translate(-10,30,0);
 						 
+				}
 		}
-	}
+
+		public void gameOverAnimation()
+		{
+		//			lightningBolt.transform.Translate(-10,30,0);
+		GameObject lightning = Instantiate(lightningBolt) as GameObject;
+		lightning.transform.parent = cameraBox.transform;
+		lightningBolt.transform.localPosition = new Vector3(0, 10, 140);
+		}
+	
 }
