@@ -30,6 +30,8 @@ public class TerrainGeneration : MonoBehaviour {
 
 	private int groundTilesHeight;
 
+	private DoodadGroup backgroundDoodad;
+
 	void Start () {
 		fieldDepth = groundPlaceholder.renderer.bounds.size.z;
 		fieldStart = groundPlaceholder.transform.position.z - (groundPlaceholder.renderer.bounds.size.z / 2);
@@ -46,6 +48,8 @@ public class TerrainGeneration : MonoBehaviour {
 		terrainTrackYMax += groundTilesHeight;
 		terrainTrack = new bool[terrainTrackXMax, terrainTrackYMax];
 
+		backgroundDoodad = background.GetComponent<DoodadGroup>();
+
 		generateTerrainLoop();
 	}
 
@@ -56,7 +60,7 @@ public class TerrainGeneration : MonoBehaviour {
 			for(int groundTile = 0; groundTile < groundTilesHeight; groundTile++) {
 				if(groundTile < groundTilesHeight) generateGround(position);
 				if(!terrainTrack[terrainTrackOffset, groundTile]) {
-					Doodad doodad = Doodads.Instance.getRandomDoodad();
+					Doodad doodad = backgroundDoodad.getRandomDoodad();
 					generateDoodad(doodad, groundTile, ground.renderer.bounds.size.y * (groundTile + 1));
 				}
 				position.z += ground.renderer.bounds.size.y;
