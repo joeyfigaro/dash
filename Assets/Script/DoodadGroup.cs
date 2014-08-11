@@ -13,6 +13,8 @@ public class DoodadGroup : Doodad {
 			list.Add(doodad.GetComponent<Doodad>());
 		}
 		scripts = list.ToArray();
+
+		avoidRegistration = true;
 	}
 
 	public Doodad getRandomDoodad() {

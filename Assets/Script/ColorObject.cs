@@ -2,6 +2,10 @@
 using System.Collections;
 
 public class ColorObject : MonoBehaviour {
+	
+	// TODO: Having a public boolean for this is probably lazy
+	protected bool avoidRegistration = false;
+
 	private Color color = new Color();
 
 	public void setColor(int colorInt) {
@@ -29,7 +33,7 @@ public class ColorObject : MonoBehaviour {
 	}
 
 	protected void destroyIfOffscreen() {
-		if ((transform.position.x < (Camera.main.transform.position.x - 50)) && (renderer.IsVisibleFrom(Camera.main) == false))
+		if (!avoidRegistration && (transform.position.x < (Camera.main.transform.position.x - 50)) && (renderer.IsVisibleFrom(Camera.main) == false))
 		{
 			Destroy(gameObject);
 		}

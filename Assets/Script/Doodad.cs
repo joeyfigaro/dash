@@ -14,9 +14,6 @@ public class Doodad : ColorObject {
 	public bool force = false;
 	public bool inGround = false;
 
-	// TODO: Having a public boolean for this is probably lazy
-	public bool avoidRegistration = false;
-
 	void Start () {
 		if(avoidRegistration) registerWithTintSource();
 	}
