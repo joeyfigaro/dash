@@ -396,7 +396,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 296697865}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3278f7e526f0c4d8598a8bcadda7ce31, type: 3}
+  m_Script: {fileID: 11500000, guid: a62b6345bf0f34e1e8e8f642a7a7ea9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   possibleUnderhang: 0
@@ -830,8 +830,8 @@ MonoBehaviour:
   gameOver: 0
   cameraBox: {fileID: 73633455}
   playerBaseSpeed: 10
-  btnRetryTexture: {fileID: 2800000, guid: fbb9841b332e94e17b64374f0f118cc7, type: 3}
-  btnMenuTexture: {fileID: 2800000, guid: d704cbb9a485a4d04a885faf20030eed, type: 3}
+  btnRetryTexture: {fileID: 2800000, guid: 5a26a8d275d584a6da70694e3fa512c7, type: 3}
+  btnMenuTexture: {fileID: 2800000, guid: b28d3581c21b64b05a71779cae476918, type: 3}
   imgRainCloudTexture: {fileID: 2800000, guid: 552cb36121e6d4581928242b97b6bf25, type: 3}
   dashGUIStyle:
     m_Name: 
@@ -892,8 +892,8 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
-  lightningBolt: {fileID: 100000, guid: f5e1010194e4f4d06a0e231dcaa65e03, type: 2}
-  rainDrops: {fileID: 100000, guid: 0c3be17d0e30e4e6899d2d2e00928b75, type: 2}
+  lightningBolt: {fileID: 100000, guid: 3d6d60501bf084a3ca51cf7774cb2d94, type: 2}
+  rainDrops: {fileID: 100000, guid: 3da136e14208d48cd8dc69b9f3580f6b, type: 2}
 --- !u!114 &1468073472
 MonoBehaviour:
   m_ObjectHideFlags: 0
