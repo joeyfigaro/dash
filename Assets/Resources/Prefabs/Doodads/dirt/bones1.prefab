@@ -42,15 +42,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   possibleUnderhang: 0
   possibleOverhang: 0
-  rarity: 10
+  rarity: 100
   minScale: .0599999987
   maxScale: .0599999987
   foreground: 0
   sky: 0
-  ground: 0
   force: 0
-  inGround: 1
-  avoidRegistration: 0
+  underground: 1
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1

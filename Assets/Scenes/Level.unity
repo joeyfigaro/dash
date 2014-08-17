@@ -406,10 +406,26 @@ MonoBehaviour:
   maxScale: 0
   foreground: 0
   sky: 0
-  ground: 0
   force: 0
-  inGround: 0
-  doodads: []
+  underground: 0
+  doodads:
+  - {fileID: 100000, guid: d98c53ae56ae94f6884542d351401b40, type: 2}
+  - {fileID: 100000, guid: f4942f98526eb43a9bc67e10d6fc4d24, type: 2}
+  - {fileID: 100000, guid: 5f927b3179af647d8a011e3213b4eb4c, type: 2}
+  - {fileID: 100000, guid: 7f4012e6392a3420aa0a0a1aeccf11a5, type: 2}
+  - {fileID: 100000, guid: abbf269814d254e82a39001b9a59c81c, type: 2}
+  - {fileID: 100000, guid: e24a31ad0b354405f8dafcc206cd427f, type: 2}
+  - {fileID: 100000, guid: 429a6d4f1c52642a3a2811b49bdca228, type: 2}
+  - {fileID: 100000, guid: 5dd9f6a61c44c4982acd3480df848681, type: 2}
+  - {fileID: 100000, guid: 3efdbb7f777c842b78548234e9a8be45, type: 2}
+  - {fileID: 100000, guid: e3e35a70c22144910a098c4cf44c8b9e, type: 2}
+  - {fileID: 100000, guid: c4de3803b1676418a815c6823c5f14f5, type: 2}
+  - {fileID: 100000, guid: 0d2420d009f6a4d5196741aab1c35748, type: 2}
+  - {fileID: 100000, guid: 46dcea9cc8a6e49ed919afdeb2b10cc9, type: 2}
+  - {fileID: 100000, guid: 61115fcc70313451684a0e3defded5bd, type: 2}
+  - {fileID: 100000, guid: d835308dbc80b41e1acd5892c6b1f8c6, type: 2}
+  - {fileID: 100000, guid: 2fd2361e0075e47bd878c0dd88be3fd3, type: 2}
+  - {fileID: 100000, guid: a9cc1618f063b461f846cc03b491e78e, type: 2}
 --- !u!1 &613739337
 GameObject:
   m_ObjectHideFlags: 0
@@ -786,6 +802,7 @@ GameObject:
   - 114: {fileID: 1468073474}
   - 114: {fileID: 1468073473}
   - 82: {fileID: 1468073476}
+  - 114: {fileID: 1468073475}
   m_Layer: 0
   m_Name: Scripts
   m_TagString: Untagged
@@ -950,6 +967,21 @@ MonoBehaviour:
     clip: {fileID: 0}
     beatStart: 30
     beatsPer: 4
+--- !u!114 &1468073475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1468073468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f6a096d5e5944b2fbe7ce1e4f08bf3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectPrefabs:
+  - {fileID: 100000, guid: 99d3e6d56bf964622a245d71a81c4bf9, type: 2}
+  amountToBuffer: 00000000
+  defaultBufferAmount: 3
 --- !u!82 &1468073476
 AudioSource:
   m_ObjectHideFlags: 0

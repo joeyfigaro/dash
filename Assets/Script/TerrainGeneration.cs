@@ -72,7 +72,10 @@ public class TerrainGeneration : MonoBehaviour {
 	}
 
 	private void generateGround(Vector3 position) {
-		GameObject groundClone = Instantiate(ground, position, Quaternion.Euler(-90, 0, 0)) as GameObject;
+		GameObject groundClone = ObjectPool.instance.GetObjectForType(ground.name, false);
+		groundClone.transform.position = position;
+		groundClone.transform.rotation = Quaternion.Euler(-90, 0, 0);
+		groundClone.name = ground.name;
 		groundClone.transform.parent = terrain.transform;
 	}
 
@@ -122,8 +125,6 @@ public class TerrainGeneration : MonoBehaviour {
 
 			doodadClone.transform.position += new Vector3((scale * ground.renderer.bounds.size.x) / 2, postScaleYOffset, 0);
 			doodadClone.transform.parent = background.transform;
-
-			if(groundTile > groundTilesHeight) doodadClone.renderer.sortingOrder = -3;
 
 			Vector2 size = new Vector2(Mathf.Ceil(scale), 1);
 			for(int width = 0; width < terrainTrackXMax; width++) {

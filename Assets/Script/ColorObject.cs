@@ -32,8 +32,21 @@ public class ColorObject : MonoBehaviour {
 		BeatsEngine.Instance.unregisterTintable(this);
 	}
 
-	protected void destroyIfOffscreen() {
+	protected bool isOffscreen() {
 		if (!avoidRegistration && (transform.position.x < (Camera.main.transform.position.x - 50)) && (renderer.IsVisibleFrom(Camera.main) == false))
+			return true;
+		return false;
+	}
+
+	protected void poolIfOffscreen() {
+		if (isOffscreen())
+		{
+			ObjectPool.instance.PoolObject(gameObject);
+		}
+	}
+
+	protected void destroyIfOffscreen() {
+		if (isOffscreen())
 		{
 			Destroy(gameObject);
 		}
