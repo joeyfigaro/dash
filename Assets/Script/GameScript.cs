@@ -4,7 +4,8 @@ using System.Collections;
 public class GameScript : MonoBehaviour {
 	public static GameScript Instance;
 
-	public bool gameOver = false;
+	private bool gameOverFlag = false;
+	private bool gameOverAnimationPending = false;
 
 	public GameObject cameraBox;
 
@@ -18,7 +19,10 @@ public class GameScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		if(gameOverAnimationPending) {
+			gameOverAnimationPending = false;
+			gameOverAnimation();
+		}
 	}
 
 	IEnumerator engage() {
@@ -61,7 +65,7 @@ public class GameScript : MonoBehaviour {
 
 	void OnGUI()
 	{
-				if (gameOver) {
+		if (gameOverFlag) {
 						beatsEngine = GetComponent<BeatsEngine> ();
 						const int buttonWidth = 256;
 						const int buttonHeight = 128;
@@ -71,7 +75,7 @@ public class GameScript : MonoBehaviour {
 
 
 		
-						if (
+			if (
 				GUI.Button (
 					new Rect (
 						Screen.width - (Screen.width / 16) - (buttonWidth),
@@ -86,7 +90,7 @@ public class GameScript : MonoBehaviour {
 								Application.LoadLevel ("level");
 						}
 		
-						if (
+			if (
 				GUI.Button (
 					new Rect (
 						Screen.width - (Screen.width / 16) - (buttonWidth),
@@ -101,8 +105,8 @@ public class GameScript : MonoBehaviour {
 								Application.LoadLevel ("intro-3-full");
 						}
 
-						// Displays the final score
-						GUI.Label (
+		// Displays the final score
+		GUI.Label (
 			new Rect (Screen.width - (Screen.width / 16) - (buttonWidth), (2 * Screen.height / 5) - (buttonHeight / 2),
 			          buttonWidth,
 			          buttonHeight
@@ -121,16 +125,21 @@ public class GameScript : MonoBehaviour {
 						 
 				}
 		}
+		
+		public void gameOver() {
+			gameOverFlag = true;
+			gameOverAnimationPending = true;
+		}
 
 		public void gameOverAnimation()
 		{
-		GameObject lightning = Instantiate(lightningBolt) as GameObject;
-		lightning.transform.parent = cameraBox.transform;
-		lightningBolt.transform.localPosition = new Vector3(3, 5, 1);
+			GameObject lightning = Instantiate(lightningBolt) as GameObject;
+			lightning.transform.parent = cameraBox.transform;
+			lightningBolt.transform.localPosition = new Vector3(3, 5, 1);
 
-		GameObject rain = Instantiate(rainDrops) as GameObject;
-		rain.transform.parent = cameraBox.transform;
-		rainDrops.transform.localPosition = new Vector3(4, 2, 1);
+			GameObject rain = Instantiate(rainDrops) as GameObject;
+			rain.transform.parent = cameraBox.transform;
+			rainDrops.transform.localPosition = new Vector3(4, 2, 1);
 		}
 	
 }

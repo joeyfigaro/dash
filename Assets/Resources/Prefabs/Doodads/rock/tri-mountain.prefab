@@ -47,10 +47,8 @@ MonoBehaviour:
   maxScale: 7
   foreground: 0
   sky: 0
-  ground: 0
   force: 0
-  inGround: 0
-  avoidRegistration: 0
+  underground: 0
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1

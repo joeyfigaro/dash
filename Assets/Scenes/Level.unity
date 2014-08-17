@@ -844,7 +844,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 170821db521a3449e9a8527b058954b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameOver: 0
   cameraBox: {fileID: 73633455}
   playerBaseSpeed: 10
   btnRetryTexture: {fileID: 2800000, guid: 5a26a8d275d584a6da70694e3fa512c7, type: 3}

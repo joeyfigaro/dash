@@ -14,7 +14,7 @@ public class Doodad : ColorObject {
 	public bool underground = false;
 
 	void Start () {
-		if(avoidRegistration) registerWithTintSource();
+		if(!avoidRegistration) registerWithTintSource();
 	}
 
 	void Update() {

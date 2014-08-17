@@ -111,7 +111,8 @@
 			void surf (Input IN, inout SurfaceOutput o) {
 				fixed4 c = tex2D (_MainTex, IN.uv_MainTex);
 			   
-				float isColorToReplace = (c.g >= 0.1) && (c.b <= 0.1);
+//				float isColorToReplace = (c.g >= 0.1) && (c.b <= 0.1) && (c.r <= 0.1);
+				float isColorToReplace = (c.g >= c.b * 1.5) && (c.g >= c.r * 1.5);
 //				float isColorToReplace = abs(1 - (c.r / c.g / c.b)) <= .8;
 				c.rgb = ((1 - isColorToReplace) * (5 * c.rgb)) + (isColorToReplace * (5 * c.g * _SunTint));
 //				c.a = ((1 - isColorToReplace) * c.a) + (isColorToReplace);
