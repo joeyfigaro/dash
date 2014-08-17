@@ -56,6 +56,7 @@ public class GameScript : MonoBehaviour {
 	public GUIStyle dashGUIStyle;
 	private BeatsEngine beatsEngine;
 	public GameObject lightningBolt;
+	public GameObject rainDrops;
 
 
 	void OnGUI()
@@ -123,10 +124,13 @@ public class GameScript : MonoBehaviour {
 
 		public void gameOverAnimation()
 		{
-		//			lightningBolt.transform.Translate(-10,30,0);
 		GameObject lightning = Instantiate(lightningBolt) as GameObject;
 		lightning.transform.parent = cameraBox.transform;
-		lightningBolt.transform.localPosition = new Vector3(0, 10, 140);
+		lightningBolt.transform.localPosition = new Vector3(3, 5, 1);
+
+		GameObject rain = Instantiate(rainDrops) as GameObject;
+		rain.transform.parent = cameraBox.transform;
+		rainDrops.transform.localPosition = new Vector3(4, 2, 1);
 		}
 	
 }
