@@ -10,9 +10,8 @@ public class Doodad : ColorObject {
 
 	public bool foreground = false;
 	public bool sky = false;
-	public bool ground = false;
 	public bool force = false;
-	public bool inGround = false;
+	public bool underground = false;
 
 	void Start () {
 		if(avoidRegistration) registerWithTintSource();
@@ -24,7 +23,8 @@ public class Doodad : ColorObject {
 	}
 
 	public GameObject instantiateAt(Vector3 pos, Quaternion rot) {
-		if(sky) pos += new Vector3(gameObject.renderer.bounds.size.x, Random.Range(25, 120), 0);
+		if(foreground) pos += new Vector3(0, -1, -2);
+		if(sky) pos += new Vector3(0, Random.Range(25, 120), 0);
 
 		return Instantiate(gameObject, pos, rot) as GameObject;
 	}

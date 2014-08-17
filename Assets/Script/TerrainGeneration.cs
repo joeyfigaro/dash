@@ -55,13 +55,12 @@ public class TerrainGeneration : MonoBehaviour {
 
 	private void generateTerrainLoop() {
 		while(lastGroundX <= (rightBorderBackground - ground.renderer.bounds.size.x)) {
-
 			Vector3 position = new Vector3(lastGroundX, terrainY, fieldStart + (ground.renderer.bounds.size.y / 2f));
 			for(int groundTile = 0; groundTile < groundTilesHeight; groundTile++) {
-				if(groundTile < groundTilesHeight) generateGround(position);
+				generateGround(position);
 				if(!terrainTrack[terrainTrackOffset, groundTile]) {
 					Doodad doodad = backgroundDoodad.getRandomDoodad();
-					generateDoodad(doodad, groundTile, ground.renderer.bounds.size.y * (groundTile + 1));
+					generateDoodad(doodad, groundTile);
 				}
 				position.z += ground.renderer.bounds.size.y;
 			}
@@ -93,22 +92,17 @@ public class TerrainGeneration : MonoBehaviour {
 		gateClone.transform.parent = terrain.transform;
 	}
 	
-	private void generateDoodad(Doodad doodad, int groundTile, float z) {
+	private void generateDoodad(Doodad doodad, int groundTile) {
+		float z = fieldStart + ground.renderer.bounds.size.y * groundTile;
+
 		if(doodad != null) {
 			int availableHeight = 1;
 			while((groundTile + availableHeight < groundTilesHeight) && !terrainTrack[terrainTrackOffset, groundTile + availableHeight])
 				availableHeight++;
 
-			if(doodad.inGround && groundTile != 0) return;
-
-			// These break the rules.
-			// TODO: terrain generation should start z at 0 and "return"
-			// if an inground doodad was chosen and z != fieldstart.
-			// Append to above statement.
-			if(doodad.inGround) z = fieldStart;
-			// TODO: terrain generation should start z at 0 and "return"
-			// if a foreground doodad was chosen and z != 0.
-			if(doodad.foreground) z = 0;
+			if(doodad.foreground && (groundTile > 0)) return;
+			else if(doodad.underground && (groundTile > 0)) return;
+			else if(z == 0) return;
 
 			GameObject doodadClone = doodad.instantiateAt(new Vector3(
 				lastTileX,
@@ -122,7 +116,7 @@ public class TerrainGeneration : MonoBehaviour {
 			doodadClone.transform.localScale /= ratio / scale;
 
 			float postScaleYOffset = 0;
-			if(doodad.inGround) {
+			if(doodad.underground) {
 				postScaleYOffset = -1 * ((scale * ground.renderer.bounds.size.y) / 2);
 			}
 
