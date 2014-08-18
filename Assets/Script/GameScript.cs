@@ -56,7 +56,7 @@ public class GameScript : MonoBehaviour {
 
 	public Texture2D btnRetryTexture;
 	public Texture2D btnMenuTexture;
-	public Texture2D imgRainCloudTexture;
+	public Texture2D gameOverTexture;
 	public GUIStyle dashGUIStyle;
 	private BeatsEngine beatsEngine;
 	public GameObject lightningBolt;
@@ -120,7 +120,7 @@ public class GameScript : MonoBehaviour {
 			          rainCloudWidth,
 			          rainCloudHeight
 						),
-					imgRainCloudTexture,
+				gameOverTexture,
 					dashGUIStyle);
 						 
 				}

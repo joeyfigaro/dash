@@ -848,7 +848,7 @@ MonoBehaviour:
   playerBaseSpeed: 10
   btnRetryTexture: {fileID: 2800000, guid: 5a26a8d275d584a6da70694e3fa512c7, type: 3}
   btnMenuTexture: {fileID: 2800000, guid: b28d3581c21b64b05a71779cae476918, type: 3}
-  imgRainCloudTexture: {fileID: 2800000, guid: 552cb36121e6d4581928242b97b6bf25, type: 3}
+  gameOverTexture: {fileID: 2800000, guid: 8f24752f735394251afc7d7bfca995ad, type: 3}
   dashGUIStyle:
     m_Name: 
     m_Normal:
