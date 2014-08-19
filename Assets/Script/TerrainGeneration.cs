@@ -117,13 +117,7 @@ public class TerrainGeneration : MonoBehaviour {
 			float scale = Random.Range(doodad.minScale, doodad.maxScale);
 
 			doodadClone.transform.localScale /= ratio / scale;
-
-			float postScaleYOffset = 0;
-			if(doodad.underground) {
-				postScaleYOffset = -1 * ((scale * ground.renderer.bounds.size.y) / 2);
-			}
-
-			doodadClone.transform.position += new Vector3((scale * ground.renderer.bounds.size.x) / 2, postScaleYOffset, 0);
+			doodadClone.transform.position += new Vector3((scale * ground.renderer.bounds.size.x) / 2, 0, 0);
 			doodadClone.transform.parent = background.transform;
 
 			Vector2 size = new Vector2(Mathf.Ceil(scale), 1);
