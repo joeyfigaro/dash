@@ -58,10 +58,7 @@ public class TerrainGeneration : MonoBehaviour {
 			Vector3 position = new Vector3(lastGroundX, terrainY, fieldStart + (ground.renderer.bounds.size.y / 2f));
 			for(int groundTile = 0; groundTile < groundTilesHeight; groundTile++) {
 				generateGround(position);
-				if(!terrainTrack[terrainTrackOffset, groundTile]) {
-					Doodad doodad = backgroundDoodad.getRandomDoodad();
-					generateDoodad(doodad, groundTile);
-				}
+				if(!terrainTrack[terrainTrackOffset, groundTile]) generateDoodad(groundTile);
 				position.z += ground.renderer.bounds.size.y;
 			}
 			generateTile();
@@ -95,10 +92,12 @@ public class TerrainGeneration : MonoBehaviour {
 		gateClone.transform.parent = terrain.transform;
 	}
 	
-	private void generateDoodad(Doodad doodad, int groundTile) {
-		float z = fieldStart + ground.renderer.bounds.size.y * groundTile;
+	private void generateDoodad(int groundTile) {
+		Doodad doodad = backgroundDoodad.getRandomDoodad();
 
 		if(doodad != null) {
+			float z = fieldStart + ground.renderer.bounds.size.y * groundTile;
+
 			int availableHeight = 1;
 			while((groundTile + availableHeight < groundTilesHeight) && !terrainTrack[terrainTrackOffset, groundTile + availableHeight])
 				availableHeight++;
@@ -107,20 +106,17 @@ public class TerrainGeneration : MonoBehaviour {
 			else if(doodad.underground && (groundTile > 0)) return;
 			else if(z == 0) return;
 
-			GameObject doodadClone = doodad.instantiateAt(new Vector3(
+			float scale = doodad.getRandomScale();
+			backgroundDoodad.instantiateA(doodad, new Vector3(
 				lastTileX,
 				terrainY,
 				z
-				), doodad.gameObject.transform.rotation);
+				), scale);
 
-			float ratio = doodadClone.renderer.bounds.size.x / ground.renderer.bounds.size.x;
-			float scale = Random.Range(doodad.minScale, doodad.maxScale);
+			float sizeX = (doodad.size * scale).x / ground.renderer.bounds.size.x;
+			float sizeY = (doodad.size * scale).y / ground.renderer.bounds.size.y;
+			Vector2 size = new Vector2(Mathf.Round(sizeX), Mathf.Round(sizeY));
 
-			doodadClone.transform.localScale /= ratio / scale;
-			doodadClone.transform.position += new Vector3((scale * ground.renderer.bounds.size.x) / 2, 0, 0);
-			doodadClone.transform.parent = background.transform;
-
-			Vector2 size = new Vector2(Mathf.Ceil(scale), 1);
 			for(int width = 0; width < terrainTrackXMax; width++) {
 				for(int height = 0; height < size.y; height++) {
 					terrainTrack[(terrainTrackOffset + width) % terrainTrackXMax, groundTile + height] = width < size.x;

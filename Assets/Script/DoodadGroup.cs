@@ -17,6 +17,21 @@ public class DoodadGroup : Doodad {
 		avoidRegistration = true;
 	}
 
+	void Start() {
+		size = new Vector3(100, 100, 100);
+	}
+
+//	public GameObject fill() {
+//
+//	}
+
+	public GameObject instantiateA(Doodad doodad, Vector3 pos, float scale) {
+		GameObject doodadClone = doodad.instantiateAt(pos, scale);
+		doodadClone.transform.parent = transform;
+
+		return doodadClone;
+	}
+
 	public Doodad getRandomDoodad() {
 		Doodad generatedDoodad = null;
 		foreach(Doodad script in scripts) {

@@ -10,7 +10,7 @@ public class CameraScript : MonoBehaviour {
 
 	private Vector3 posDestOffset = new Vector3(0, 0, 0);
 	private Quaternion rotDestOffset = new Quaternion(0, 0, 0, 0);	private Vector3 posCurOffset = new Vector3(0, 0, 0);
-	private Quaternion rotCurOffset = new Quaternion(0, 0, 0, 0);
+//	private Quaternion rotCurOffset = new Quaternion(0, 0, 0, 0);
 
 
 	void Start () {
@@ -31,20 +31,20 @@ public class CameraScript : MonoBehaviour {
 	}
 
 	void LateUpdate () {
-		float speedRatio = .5f;
+//		float speedRatio = .5f;
 
 		Vector3 pos = transform.position;
-		float cameraLeftOffset = 0;
+//		float cameraLeftOffset = 0;
 
 		if(player != null) {
 			pos = getAdjustedPosition();
-			cameraLeftOffset = (
-				Camera.main.ViewportToWorldPoint(
-				new Vector3(0, 0, player.transform.position.z)
-				).x - 
-				Camera.main.ViewportToWorldPoint(
-				new Vector3(-1, 0, player.transform.position.z)
-				).x) / 1.5f;
+//			cameraLeftOffset = (
+//				Camera.main.ViewportToWorldPoint(
+//				new Vector3(0, 0, player.transform.position.z)
+//				).x - 
+//				Camera.main.ViewportToWorldPoint(
+//				new Vector3(-1, 0, player.transform.position.z)
+//				).x) / 1.5f;
 		}
 
 //		float newField = cameraFieldInitial + (cameraFieldMax - (speedRatio * cameraFieldMax));

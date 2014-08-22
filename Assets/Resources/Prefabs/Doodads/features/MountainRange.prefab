@@ -46,7 +46,7 @@ MonoBehaviour:
   maxScale: 0
   foreground: 0
   sky: 0
-  force: 1
+  force: 0
   underground: 0
   doodads:
   - {fileID: 100000, guid: 0d2420d009f6a4d5196741aab1c35748, type: 2}
