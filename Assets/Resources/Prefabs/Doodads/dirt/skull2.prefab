@@ -43,12 +43,13 @@ MonoBehaviour:
   possibleUnderhang: 0
   possibleOverhang: 0
   rarity: 10
-  minScale: .0599999987
-  maxScale: .0599999987
+  minScale: .75
+  maxScale: 1
   foreground: 0
   sky: 0
   force: 0
   underground: 1
+  size: {x: 0, y: 0, z: 0}
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1

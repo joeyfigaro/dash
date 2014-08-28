@@ -23,11 +23,6 @@ public class TerrainGeneration : MonoBehaviour {
 	private float lastGroundX;
 	private float lastTileX;
 
-	private int terrainTrackXMax = 10;
-	private int terrainTrackYMax = 40;
-	private bool[,] terrainTrack;
-	private int terrainTrackOffset;
-
 	private int groundTilesHeight;
 
 	private DoodadGroup backgroundDoodad;
@@ -45,11 +40,9 @@ public class TerrainGeneration : MonoBehaviour {
 		lastTileX = leftBorderBackground - tile.renderer.bounds.size.x;
 
 		groundTilesHeight = Mathf.FloorToInt(fieldDepth / ground.renderer.bounds.size.y - 1);
-		terrainTrackYMax += groundTilesHeight;
-		terrainTrack = new bool[terrainTrackXMax, terrainTrackYMax];
 
 		backgroundDoodad = background.GetComponent<DoodadGroup>();
-
+		backgroundDoodad.setSize(new Vector3(groundPlaceholder.renderer.bounds.size.x, 0, fieldZMax));
 		generateTerrainLoop();
 	}
 
@@ -58,12 +51,9 @@ public class TerrainGeneration : MonoBehaviour {
 			Vector3 position = new Vector3(lastGroundX, terrainY, fieldStart + (ground.renderer.bounds.size.y / 2f));
 			for(int groundTile = 0; groundTile < groundTilesHeight; groundTile++) {
 				generateGround(position);
-				if(!terrainTrack[terrainTrackOffset, groundTile]) generateDoodad(groundTile);
 				position.z += ground.renderer.bounds.size.y;
 			}
 			generateTile();
-
-			terrainTrackOffset = (terrainTrackOffset + 1) % terrainTrackXMax;
 			lastGroundX += ground.renderer.bounds.size.x;
 		}
 	}
@@ -90,39 +80,6 @@ public class TerrainGeneration : MonoBehaviour {
 			fieldStart
 		), Quaternion.Euler(0, 0, 0)) as GameObject;
 		gateClone.transform.parent = terrain.transform;
-	}
-	
-	private void generateDoodad(int groundTile) {
-		Doodad doodad = backgroundDoodad.getRandomDoodad();
-
-		if(doodad != null) {
-			float z = fieldStart + ground.renderer.bounds.size.y * groundTile;
-
-			int availableHeight = 1;
-			while((groundTile + availableHeight < groundTilesHeight) && !terrainTrack[terrainTrackOffset, groundTile + availableHeight])
-				availableHeight++;
-
-			if(doodad.foreground && (groundTile > 0)) return;
-			else if(doodad.underground && (groundTile > 0)) return;
-			else if(z == 0) return;
-
-			float scale = doodad.getRandomScale();
-			backgroundDoodad.instantiateA(doodad, new Vector3(
-				lastTileX,
-				terrainY,
-				z
-				), scale);
-
-			float sizeX = (doodad.size * scale).x / ground.renderer.bounds.size.x;
-			float sizeY = (doodad.size * scale).y / ground.renderer.bounds.size.y;
-			Vector2 size = new Vector2(Mathf.Round(sizeX), Mathf.Round(sizeY));
-
-			for(int width = 0; width < terrainTrackXMax; width++) {
-				for(int height = 0; height < size.y; height++) {
-					terrainTrack[(terrainTrackOffset + width) % terrainTrackXMax, groundTile + height] = width < size.x;
-				}
-			}
-		}
 	}
 
 	private void calculateBorders() {

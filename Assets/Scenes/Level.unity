@@ -408,6 +408,7 @@ MonoBehaviour:
   sky: 0
   force: 0
   underground: 0
+  size: {x: 0, y: 0, z: 0}
   doodads:
   - {fileID: 100000, guid: d98c53ae56ae94f6884542d351401b40, type: 2}
   - {fileID: 100000, guid: f4942f98526eb43a9bc67e10d6fc4d24, type: 2}

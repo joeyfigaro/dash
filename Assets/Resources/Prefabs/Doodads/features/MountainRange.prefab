@@ -41,13 +41,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   possibleUnderhang: 0
   possibleOverhang: 0
-  rarity: 10
+  rarity: 1000010000
   minScale: 0
   maxScale: 0
   foreground: 0
   sky: 0
   force: 0
   underground: 0
+  size: {x: 0, y: 0, z: 0}
   doodads:
   - {fileID: 100000, guid: 0d2420d009f6a4d5196741aab1c35748, type: 2}
   - {fileID: 100000, guid: 3efdbb7f777c842b78548234e9a8be45, type: 2}

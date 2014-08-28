@@ -19,7 +19,15 @@ public class Doodad : ColorObject {
 
 	void Start () {
 		if(!avoidRegistration) registerWithTintSource();
-		size = renderer.bounds.size;
+		initialize();
+	}
+
+	public void initialize() {
+		if(!avoidRegistration) setSize(Vector3.Scale(((SpriteRenderer) renderer).sprite.bounds.size, transform.localScale));
+	}
+	
+	public void setSize(Vector3 newSize) {
+		size = newSize;
 	}
 
 	void Update() {
@@ -27,11 +35,18 @@ public class Doodad : ColorObject {
 		destroyIfOffscreen();
 	}
 
+	public Vector3 getSizeAtScale(float scale) {
+		float sizeX = Mathf.Round((size * scale).x);
+  		float sizeY = Mathf.Round((size * scale).y);
+		return new Vector3(sizeX, sizeY, 0);
+	}
+	
 	public float getRandomScale() {
 		return Random.Range(minScale, maxScale);
 	}
 
 	public GameObject instantiateAt(Vector3 pos, float scale) {
+		// TODO: This is bad
 		if(foreground) pos += new Vector3(0, -1, -2);
 		if(sky) pos += new Vector3(0, Random.Range(25, 120), 0);
 
